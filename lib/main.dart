@@ -40,9 +40,11 @@ class MyApp extends StatelessWidget {
           bodyLarge: TextStyle(fontSize: 30, color: Colors.black),
           bodyMedium: TextStyle(fontSize: 25, color: Colors.black),
           bodySmall: TextStyle(fontSize: 15,color: Colors.black)
+           
         ),
         cardTheme: CardTheme(
           color: Colors.blueGrey
+          
         ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.blueAccent,
@@ -67,7 +69,6 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.teal
         )
       ),
-      themeMode: Provider.of(context).System,
     );
   }
 }

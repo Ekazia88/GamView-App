@@ -63,7 +63,7 @@ class AvatarCircle extends StatelessWidget {
       height: 200,
       child: CircleAvatar(
         backgroundColor : Colors.amber,
-        backgroundImage: AssetImage('./assets/logo.png'),
+        // backgroundImage: AssetImage('./assets/logo.png'),
 
       ),
     );

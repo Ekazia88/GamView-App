@@ -156,8 +156,11 @@ class CardNews3 extends StatelessWidget {
     const listCardriview({super.key});
 
     @override
+
     Widget build(BuildContext context) {
       return ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemCount: listReview.length,
         itemBuilder: (context, index) => CardBox(context, index),
       );
@@ -202,32 +205,21 @@ class CardNews3 extends StatelessWidget {
                             children: [
                               Text(
                                 listReview[index].namaGame,
-                                style: TextStyle(
-                                  fontSize: 25,
-                                   color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium
                               ),
                               SizedBox(height: 12),
                               Text(
                               listReview[index].platform,
-                                style: TextStyle(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   fontSize: 20,
-                                  color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
-                                    ),
+                                )
                               ),
                               SizedBox(height: 12),
                               Text(
                                 listReview[index].tahunRilis,
-                                style: TextStyle(
+                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   fontSize: 20,
-                                  color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
-                                    ),
+                                )
                               ),
                               SizedBox(height: 12),
                               Text(
@@ -239,13 +231,11 @@ class CardNews3 extends StatelessWidget {
                                 ),
                               ),
                             ],
-                            
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 15), // Add padding here
                             child: CircleNumber(number:listReview[index].Score),
                           ),
-                        
                         ],
                       ),
                     ),

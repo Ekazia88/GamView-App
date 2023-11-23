@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gamview/Models/DataReview.dart';
 import 'package:gamview/Screen/Game_page.dart';
+import 'package:gamview/Widget/BottomNavbar.dart';
+import 'package:gamview/Widget/Homepage/IconProfile.dart';
+import 'package:gamview/Widget/Homepage/Section_Riview.dart';
 import 'package:gamview/Widget/Homepage/Section_news.dart';
 import 'package:gamview/Widget/Navigation.dart';
 import 'package:gamview/Widget/Homepage/card.dart';
@@ -15,33 +18,18 @@ class Homepage extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
         title: Text('GamView'),
+        leading: Builder(builder: (context) => IconButton(onPressed: (){
+          Scaffold.of(context).openDrawer();
+        }, icon: IconProfile(wdth: 50,hght: 50,)),
+        )
         ),
-        body: Center(
-              child : Column(
+        bottomNavigationBar: BottomNavbar(),
+        body: ListView(
                 children: [
                SectNews(),
-              Expanded(child:
-                Padding(padding: EdgeInsets.all(10),
-                  child: listReview.isEmpty ?
-                    Text("Yah ngak ada review!!" ,style: TextStyle(
-                      fontSize: 35,
-                      color:  Theme.of(context).brightness == Brightness.dark
-                                      ? Colors.white
-                                      : Colors.black
-                    ))
-                    :
-                  Column(
-                    children: [
-                      Text("Review Hari Ini", style: Theme.of(context).textTheme.bodyLarge,),
-                    Expanded(child: listCardriview()),
-                    ],
-                  )
-                  ,
-                  ),
-              )
+              SectRiview(),
                 ] 
                 ),
-        )
-            );
+        );
     }
 }

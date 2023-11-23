@@ -104,6 +104,7 @@ import 'package:gamview/Models/DataReview.dart';
                             "and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum"
                           ,style: TextStyle(
                             fontSize: 14,
+                            color: Colors.white
                           ),
                           ),
                           Expanded(child: ButtonCupertino())

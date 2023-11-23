@@ -33,17 +33,17 @@ class MyApp extends StatelessWidget {
 
         brightness: Brightness.light,
         primarySwatch: Colors.blue, 
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: Color(0xFF171a21),
 
         // Konfigurasi teks
         textTheme: TextTheme(
-          bodyLarge: TextStyle(fontSize: 30, color: Colors.black),
-          bodyMedium: TextStyle(fontSize: 25, color: Colors.black),
-          bodySmall: TextStyle(fontSize: 15,color: Colors.black)
+          bodyLarge: TextStyle(fontSize: 30, color: Colors.white),
+          bodyMedium: TextStyle(fontSize: 25, color: Colors.white),
+          bodySmall: TextStyle(fontSize: 15,color: Colors.white)
            
         ),
         cardTheme: CardTheme(
-          color: Colors.blueGrey
+          color: Color(0xFF008170)
           
         ),
         appBarTheme: AppBarTheme(

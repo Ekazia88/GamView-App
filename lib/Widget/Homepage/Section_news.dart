@@ -14,9 +14,8 @@ class SectNews extends StatelessWidget {
       var tinggi = MediaQuery.of(context).size.height;
       return  Container(
                 padding: EdgeInsets.only(top: 10),
-                color: Colors.amber,
                 width: lebar,
-                height: tinggi / 3.5,
+                height: tinggi / 2,
                 child:Column(
                     children: [
                 Center( 

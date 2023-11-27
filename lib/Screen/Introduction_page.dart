@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gamview/Screen/home_page.dart';
+import 'package:gamview/Screen/pageController.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 //bagian widget page
@@ -17,7 +17,7 @@ class Introduction_page extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return Homepage();
+                return pagesController();
                 },
             ),
           );

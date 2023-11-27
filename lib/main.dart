@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamview/Screen/Introduction_page.dart';
 import 'package:gamview/Screen/about_page.dart';
-import 'package:gamview/Screen/home_page.dart';
+import 'package:gamview/Screen/pageController.dart';
 import 'package:gamview/Screen/input_GamView.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
@@ -24,9 +24,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/' : (context) => Introduction_page(),
-        '/home':(context) => Homepage(),
-        '/Add' : (context) => AddReviewscreen(),
-        '/About' :(context) => AboutPage(),
       },
        theme: ThemeData(
         // Light Theme

@@ -18,3 +18,19 @@ class dataReview{
   });
 }
 List <dataReview> listReview = List.empty(growable: true);
+class test{
+  String Genre;
+  String Title;
+  String ImagePath;
+  test({
+    required this.Genre,
+    required this.Title,
+    required this.ImagePath
+  });
+}
+List <test> lstT = [
+  test(Genre: "123",Title: "123",ImagePath: "assets/Images/GTA 6.jpg"),
+  test(Genre: "123",Title: "123",ImagePath: "assets/Images/GTA 6.jpg"),
+  test(Genre: "123",Title: "123",ImagePath: "assets/Images/GTA 6.jpg"),
+  test(Genre: "123",Title: "123",ImagePath: "assets/Images/GTA 6.jpg")
+];

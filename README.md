@@ -1,6 +1,6 @@
 # gamview
 
-A new Flutter project.
+A Android App For Review Games
 
 ## Getting Started
 

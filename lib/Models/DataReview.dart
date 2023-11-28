@@ -34,3 +34,9 @@ List <test> lstT = [
   test(Genre: "123",Title: "123",ImagePath: "assets/Images/GTA 6.jpg"),
   test(Genre: "123",Title: "123",ImagePath: "assets/Images/GTA 6.jpg")
 ];
+List <dataReview> dtr = [
+  dataReview(namaGame: "Hogwart Legacy", platform: "Playstation,Switch,PC,Xbox", tahunRilis: "2003", Score: "8.0", Review: "12345", genre: "1234", imagepath: "assets/Images/Howard_legacy_news.jpg"),
+  dataReview(namaGame: "test1", platform: "test2", tahunRilis: "2003", Score: "8.0", Review: "12345", genre: "1234", imagepath: "assets/Images/Howard_legacy_news.jpg"),
+  dataReview(namaGame: "test1", platform: "test2", tahunRilis: "2003", Score: "8.0", Review: "12345", genre: "1234", imagepath: "assets/Images/Howard_legacy_news.jpg"),
+  dataReview(namaGame: "test1", platform: "test2", tahunRilis: "2003", Score: "8.0", Review: "12345", genre: "1234", imagepath: "assets/Images/Howard_legacy_news.jpg"),
+];

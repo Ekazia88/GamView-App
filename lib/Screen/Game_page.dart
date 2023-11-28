@@ -9,7 +9,7 @@ import 'package:gamview/Models/DataReview.dart';
     Widget build(BuildContext context) {
       var lebar = MediaQuery.of(context).size.width;
       var tinggi = MediaQuery.of(context).size.height;
-      print(listReview[Idx]);
+      print(dtr[Idx]);
       return Scaffold(
         appBar: AppBar(
             centerTitle: true,
@@ -38,28 +38,28 @@ import 'package:gamview/Models/DataReview.dart';
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children :
                               [
-                            Text(listReview[Idx].namaGame, 
+                            Text(dtr[Idx].namaGame, 
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 12),
-                            Text(listReview[Idx].tahunRilis,
+                            Text(dtr[Idx].tahunRilis,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 12),
-                            Text(listReview[Idx].platform,
+                            Text(dtr[Idx].platform,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 12),
-                            Text("Score : " + listReview[Idx].Score,
+                            Text("Score : " + dtr[Idx].Score,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

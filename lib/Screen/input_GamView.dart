@@ -45,12 +45,13 @@ class _TambahReviewState extends State<TambahReview> {
     String platform = platformController.text.trim();
     String tahunRilis = tahunRilisController.text.trim();
     String score = scoreController.text.trim();
+    int ScoreConvert = int.parse(score);
     String genre = genreController.text.trim();
     String Riview = riviewController.text.trim();
     String imagepath = imagepathController.text.trim();
 
     if(namaGame.isNotEmpty){
-      listReview.add(dataReview(namaGame: namaGame, platform: platform, tahunRilis: tahunRilis, Score: score, Review: Riview, genre: genre, imagepath: imagepath));
+      listReview.add(dataReview(namaGame: namaGame, platform: platform, tahunRilis: tahunRilis, Score: ScoreConvert, Review: Riview, genre: genre, imagepath: imagepath));
     }
     showDialog(
       context: context,

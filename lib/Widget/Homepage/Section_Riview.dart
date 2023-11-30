@@ -10,14 +10,7 @@ class SectRiview extends StatelessWidget {
     return Container(
       child:
                 Padding(padding: EdgeInsets.all(10),
-                  child: listReview.isEmpty ?
-                    Text("Yah ngak ada review!!" ,style: TextStyle(
-                      fontSize: 35,
-                      color:  Theme.of(context).brightness == Brightness.dark
-                                      ? Colors.white
-                                      : Colors.black
-                    ))
-                    :listCardriview(),
+                  child: listCardriview(),
                   ),
                   );
   }

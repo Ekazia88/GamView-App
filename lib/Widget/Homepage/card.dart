@@ -1,7 +1,15 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:gamview/Widget/Homepage/cardbox.dart';
+
+import '../../Models/DataGame.dart';
 import '../../Models/DataReview.dart';
 import '../../Screen/Game_page.dart';
+import '../circleNumber.dart';
+
+import 'package:http/http.dart' as http;
 class CardNews extends StatelessWidget {
   const CardNews({super.key});
 
@@ -152,126 +160,57 @@ class CardNews3 extends StatelessWidget {
     );
   }
 }
- class listCardriview extends StatelessWidget {
+ class listCardriview extends StatefulWidget {
     const listCardriview({super.key});
 
+  @override
+  State<listCardriview> createState() => _listCardriviewState();
+}
+
+class _listCardriviewState extends State<listCardriview> {
+ String APIKEY = '29fdecacf1544d789335eefbefb835e2';
+  String BASE_URL = 'https://api.rawg.io/api/games?token&key=29fdecacf1544d789335eefbefb835e2';
+  Future<List<Game>> _fetchGames() async {
+   final response = await http.get(Uri.parse(BASE_URL));
+  if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body) as List<dynamic>;
+      final games = jsonResponse.map((data) => Game.fromJson(data)).toList();
+      return games;
+  } else {
+    throw Exception('$response');
+  }
+}
     @override
 
     Widget build(BuildContext context) {
+      return FutureBuilder(
+  future: _fetchGames(),
+  builder: (context, snapshot) {
+    if (snapshot.hasData) {
+      final games = snapshot.data as List<Game>;
       return ListView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: listReview.length,
-        itemBuilder: (context, index) => CardBox(context, index),
+        itemCount: games.length,
+        itemBuilder: (context, index){
+          return
+          Cardbox(
+          idx: index,
+          title: games[index].name,
+          genre: games[index].name,
+          platform: games[index].platforms.first.name,
+          released: games[index].released,
+          rating: games[index].rating,
+        );
+        }
       );
+    } else if (snapshot.hasError) {
+      print(snapshot.error);
+      return Text('Error: ${snapshot.error}');
+    } else {
+      return CircularProgressIndicator();
     }
-  }
-  //membuat widget CardBox untuk setiap Review
-  Widget CardBox(BuildContext context, int index){
-  return GestureDetector(
-    onTap: (){
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context){
-          return GamePage(Idx: index);
-        })
-      );
-    },
-    child:
-  Card(
-          child:
-          Container(
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Theme.of(context).cardTheme.color,
-              ),
-            child: Padding(
-              padding: EdgeInsets.all(13),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 180,
-                      color: Colors.black,
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                listReview[index].namaGame,
-                                style: Theme.of(context).textTheme.bodyMedium
-                              ),
-                              SizedBox(height: 12),
-                              Text(
-                              listReview[index].platform,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontSize: 20,
-                                )
-                              ),
-                              SizedBox(height: 12),
-                              Text(
-                                listReview[index].tahunRilis,
-                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontSize: 20,
-                                )
-                              ),
-                              SizedBox(height: 12),
-                              Text(
-                                listReview[index].genre,
-                                style: TextStyle(fontSize: 20,
-                                color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15), // Add padding here
-                            child: CircleNumber(number:listReview[index].Score),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            )
-  );
-  }
-//membuat CircleUntuk Score
-  class CircleNumber extends StatelessWidget {
-    final String number;
-
-    CircleNumber({required this.number});
-    @override
-    Widget build(BuildContext context) {
-      return Container(
-        width: 80, // Sesuaikan ukuran sesuai kebutuhan
-        height: 80, // Sesuaikan ukuran sesuai kebutuhan
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Theme.of(context).brightness == Brightness.dark
-          ? Colors.teal // Ganti warna sesuai tema gelap
-          : Colors.blue,
-        ),
-        child: Center(
-          child: Text(
-            number,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      );
-    }
-  }
+  },
+);
+}
+}

@@ -6,6 +6,12 @@ import '../../Models/DataGame.dart';
 import '../../Models/DataReview.dart';
 import '../../Screen/Game_page.dart';
 import '../circleNumber.dart';
+<<<<<<< HEAD
+=======
+
+import 'package:http/http.dart' as http;
+
+>>>>>>> fac2f2475e5d44f0a7d24a7c3907665032f6e6b8
 class CardNews extends StatelessWidget {
   const CardNews({super.key});
 
@@ -14,56 +20,55 @@ class CardNews extends StatelessWidget {
     return Container(
       height: 200, // Adjusted height for portrait orientation
       width: 300, // Adjusted width for portrait orientation
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(25)),
-                image: DecorationImage(
-                  image: AssetImage("assets/Images/Howard_legacy_news.jpg"),
-                  fit: BoxFit.cover,
-                ),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+              image: DecorationImage(
+                image: AssetImage("assets/Images/Howard_legacy_news.jpg"),
+                fit: BoxFit.cover,
               ),
             ),
-            Padding(padding: EdgeInsets.only(left: 10),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 70,), 
-                SelectableText("GOTY 2023: ",style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white
-                )),
-                SelectableText("Nominasi Game Of the year Tahun ini",style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.white
-                )),
+                const SizedBox(
+                  height: 70,
+                ),
+                SelectableText("GOTY 2023: ",
+                    style: TextStyle(fontSize: 20, color: Colors.white)),
+                SelectableText("Nominasi Game Of the year Tahun ini",
+                    style: TextStyle(fontSize: 13, color: Colors.white)),
               ],
             ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 200,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
+          ),
+          SizedBox(
+            width: 320,
+            height: 200,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
                   border: Border.all(color: Colors.white, width: 3),
-                  borderRadius: BorderRadius.all(Radius.circular(25))
-                ),
-                ),
-              ),
-          ],
-        ),
-      );
+                  borderRadius: BorderRadius.all(Radius.circular(25))),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
+
 class CardNews2 extends StatelessWidget {
   const CardNews2({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200, // Adjusted height for portrait orientation
-      width: 300, // Adjusted width for portrait orientation
+        height: 200, // Adjusted height for portrait orientation
+        width: 300, // Adjusted width for portrait orientation
         child: Stack(
           children: [
             Container(
@@ -75,37 +80,35 @@ class CardNews2 extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.only(left: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 70,), 
-                SelectableText("GOTY 2024: ",style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white
-                )),
-                SelectableText("Nominasi Game Of the year Tahun ini",style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.white
-                )),
-              ],
-            ),
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 70,
+                  ),
+                  SelectableText("GOTY 2024: ",
+                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                  SelectableText("Nominasi Game Of the year Tahun ini",
+                      style: TextStyle(fontSize: 13, color: Colors.white)),
+                ],
+              ),
             ),
             SizedBox(
               width: 320,
               height: 200,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 3),
-                  borderRadius: BorderRadius.all(Radius.circular(25))
-                ),
-                ),
+                    border: Border.all(color: Colors.white, width: 3),
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
               ),
+            ),
           ],
-        )
-    );
+        ));
   }
 }
+
 class CardNews3 extends StatelessWidget {
   const CardNews3({super.key});
 
@@ -114,45 +117,43 @@ class CardNews3 extends StatelessWidget {
     return Container(
       height: 200, // Adjusted height for portrait orientation
       width: 300, // Adjusted width for portrait orientation
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(25)),
-                image: DecorationImage(
-                  image: AssetImage("assets/Images/GTA 6.jpg"),
-                  fit: BoxFit.cover,
-                ),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+              image: DecorationImage(
+                image: AssetImage("assets/Images/GTA 6.jpg"),
+                fit: BoxFit.cover,
               ),
             ),
-            Padding(padding: EdgeInsets.only(left: 10),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 70,), 
-                SelectableText("GTA 6 NEWS: ",style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white
-                )),
-                SelectableText("Trailer gta 6 muncul di akhir tahun",style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.white
-                )),
+                const SizedBox(
+                  height: 70,
+                ),
+                SelectableText("GTA 6 NEWS: ",
+                    style: TextStyle(fontSize: 20, color: Colors.white)),
+                SelectableText("Trailer gta 6 muncul di akhir tahun",
+                    style: TextStyle(fontSize: 13, color: Colors.white)),
               ],
             ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 200,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
+          ),
+          SizedBox(
+            width: 320,
+            height: 200,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
                   border: Border.all(color: Colors.white, width: 3),
-                  borderRadius: BorderRadius.all(Radius.circular(25))
-                ),
-                ),
-              ),
-          ],
-        ),
+                  borderRadius: BorderRadius.all(Radius.circular(25))),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

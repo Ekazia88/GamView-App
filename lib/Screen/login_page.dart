@@ -24,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
     final screenWidth = MediaQuery.of(context).size.width; // Added screenWidth
 
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('LOGIN'),
         backgroundColor: Colors.deepPurple,

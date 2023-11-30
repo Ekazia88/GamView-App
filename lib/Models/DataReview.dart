@@ -1,5 +1,6 @@
 // membuat class dan list untuk menyimpan data
 class dataReview{
+  // String Uid;
   String namaGame;
   String platform ;
   String tahunRilis ;
@@ -7,7 +8,9 @@ class dataReview{
   String Review ;
   String genre ;
   String imagepath;
+  
   dataReview({
+    // required this.Uid,
     required this.namaGame,
     required this.platform,
     required this.tahunRilis,

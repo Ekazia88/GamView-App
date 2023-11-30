@@ -10,7 +10,7 @@ class SectRiview extends StatelessWidget {
     return Container(
       child:
                 Padding(padding: EdgeInsets.all(10),
-                  child: listCardriview(),
+                  // child: listCardriview(),
                   ),
                   );
   }

@@ -8,10 +8,10 @@ class SectRiview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:
-                Padding(padding: EdgeInsets.all(10),
-                  child: listCardriview(),
-                  ),
-                  );
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        // child: listCardriview(),
+      ),
+    );
   }
 }

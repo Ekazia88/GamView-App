@@ -1,16 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gamview/Screen/Introduction_page.dart';
 import 'package:gamview/Screen/about_page.dart';
 import 'package:gamview/Screen/pageController.dart';
 import 'package:gamview/Screen/input_GamView.dart';
+import 'package:gamview/Service/Service.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
 
 
 
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async{
+   WidgetsFlutterBinding.ensureInitialized();
+  await initializeFirebase();
+  runApp(MyApp());
 }
 // untuk membuat route antar halaman
 class MyApp extends StatelessWidget {
@@ -21,10 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return 
     MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/' : (context) => Introduction_page(),
-      },
+     home: Introduction_page(),
        theme: ThemeData(
         // Light Theme
 

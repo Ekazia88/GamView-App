@@ -18,7 +18,7 @@ class Introduction_page extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return pagesController();
+                return LoginPage();
                 },
             ),
           );

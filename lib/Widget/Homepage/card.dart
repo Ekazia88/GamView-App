@@ -6,12 +6,6 @@ import '../../Models/DataGame.dart';
 import '../../Models/DataReview.dart';
 import '../../Screen/Game_page.dart';
 import '../circleNumber.dart';
-<<<<<<< HEAD
-=======
-
-import 'package:http/http.dart' as http;
-
->>>>>>> fac2f2475e5d44f0a7d24a7c3907665032f6e6b8
 class CardNews extends StatelessWidget {
   const CardNews({super.key});
 

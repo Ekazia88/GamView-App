@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 // Games _$GamesFromJson(Map<String, dynamic> json) {
 //   return Games(
 //     json['id'] as int,
@@ -45,4 +44,3 @@
 //       'description': instance.description,
 //       'description_raw': instance.descriptionRaw,
 //     };
->>>>>>> fac2f2475e5d44f0a7d24a7c3907665032f6e6b8

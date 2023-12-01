@@ -160,57 +160,57 @@ class CardNews3 extends StatelessWidget {
     );
   }
 }
- class listCardriview extends StatefulWidget {
-    const listCardriview({super.key});
+//  class listCardriview extends StatefulWidget {
+//     const listCardriview({super.key});
 
-  @override
-  State<listCardriview> createState() => _listCardriviewState();
-}
+//   @override
+//   State<listCardriview> createState() => _listCardriviewState();
+// }
 
-class _listCardriviewState extends State<listCardriview> {
- String APIKEY = '29fdecacf1544d789335eefbefb835e2';
-  String BASE_URL = 'https://api.rawg.io/api/games?token&key=29fdecacf1544d789335eefbefb835e2';
-  Future<List<Game>> _fetchGames() async {
-   final response = await http.get(Uri.parse(BASE_URL));
-  if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body) as List<dynamic>;
-      final games = jsonResponse.map((data) => Game.fromJson(data)).toList();
-      return games;
-  } else {
-    throw Exception('$response');
-  }
-}
-    @override
+// class _listCardriviewState extends State<listCardriview> {
+//  String APIKEY = '29fdecacf1544d789335eefbefb835e2';
+//   String BASE_URL = 'https://api.rawg.io/api/games?token&key=29fdecacf1544d789335eefbefb835e2';
+//   Future<List<Game>> _fetchGames() async {
+//    final response = await http.get(Uri.parse(BASE_URL));
+//   if (response.statusCode == 200) {
+//       final jsonResponse = jsonDecode(response.body) as List<dynamic>;
+//       final games = jsonResponse.map((data) => Game.fromJson(data)).toList();
+//       return games;
+//   } else {
+//     throw Exception('$response');
+//   }
+// }
+//     @override
 
-    Widget build(BuildContext context) {
-      return FutureBuilder(
-  future: _fetchGames(),
-  builder: (context, snapshot) {
-    if (snapshot.hasData) {
-      final games = snapshot.data as List<Game>;
-      return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: games.length,
-        itemBuilder: (context, index){
-          return
-          Cardbox(
-          idx: index,
-          title: games[index].name,
-          genre: games[index].name,
-          platform: games[index].platforms.first.name,
-          released: games[index].released,
-          rating: games[index].rating,
-        );
-        }
-      );
-    } else if (snapshot.hasError) {
-      print(snapshot.error);
-      return Text('Error: ${snapshot.error}');
-    } else {
-      return CircularProgressIndicator();
-    }
-  },
-);
-}
-}
+//     Widget build(BuildContext context) {
+//       return FutureBuilder(
+//   future: _fetchGames(),
+//   builder: (context, snapshot) {
+//     if (snapshot.hasData) {
+//       final games = snapshot.data as List<Game>;
+//       return ListView.builder(
+//         shrinkWrap: true,
+//         physics: NeverScrollableScrollPhysics(),
+//         itemCount: games.length,
+//         itemBuilder: (context, index){
+//           return
+//           Cardbox(
+//           idx: index,
+//           title: games[index].name,
+//           genre: games[index].name,
+//           platform: games[index].platforms.first.name,
+//           released: games[index].released,
+//           rating: games[index].rating,
+//         );
+//         }
+//       );
+//     } else if (snapshot.hasError) {
+//       print(snapshot.error);
+//       return Text('Error: ${snapshot.error}');
+//     } else {
+//       return CircularProgressIndicator();
+//     }
+//   },
+// );
+// }
+// }

@@ -30,25 +30,37 @@ class _LoginPageState extends State<LoginPage> {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  submit() async{
-    String email = emailController.value.text;
-    String password = passwordController.value.text;
-    if(email.isEmpty || password.isEmpty){
-      popup("warning", "kolom harus diisi!");
-    }else{
-      setState(() => islogin = true);
-      try{
-        await FirebaseAuthService().SignIn(email, password);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> pagesController() ));
-      }catch(e){
+  submit() async {
+  String email = emailController.value.text;
+  String password = passwordController.value.text;
+  if (email.isEmpty || password.isEmpty) {
+    popup("warning", "kolom harus diisi!");
+  } else {
+
+    try {
+      await FirebaseAuthService().SignIn(email, password);
+       print(FirebaseAuthService().Islogin());
+      if (await FirebaseAuthService().Islogin()) {
+        print(FirebaseAuthService().Islogin());
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => pagesController()),
+        );
+      } else {
+        // Handle unsuccessful login
+        _showSnackbar('Login failed');
         setState(() => islogin = false);
-
-        emailController.clear();
-        passwordController.clear();
       }
-
+    } catch (e) {
+      // Handle other errors
+      _showSnackbar('Login failed');
+      setState(() => islogin = false);
+      emailController.clear();
+      passwordController.clear();
     }
   }
+}
+
   void popup(String title,String content){
     showDialog(context: context, builder: ((context) {
       return AlertDialog(
@@ -139,12 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: InkWell(
                     onTap: () {
                       submit(); 
-                      // if (emailController.text == 'novi@gmail.com' &&
-                      //     passwordController.text == '1283') {
-                      //   _showSnackbar('Login berhasil');
-                      // } else {
-                      //   _showSnackbar('Login gagal');
-                      // }
+                    
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -386,11 +393,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     print(islogin);
                     islogin != true ? Submit() : 
                     print(islogin);
-                    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context){
-          return pagesController();
-        })
-      );
+                    
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),

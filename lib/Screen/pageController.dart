@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:gamview/Models/DataReview.dart';
+import 'package:gamview/Models/UsersDetail.dart';
+import 'package:gamview/Provider/catProvider.dart';
+import 'package:gamview/Provider/gameProvider.dart';
 import 'package:gamview/Screen/Category_page.dart';
 import 'package:gamview/Screen/Discover_page.dart';
-import 'package:gamview/Screen/Game_page.dart';
 import 'package:gamview/Screen/Home_page.dart';
 import 'package:gamview/Screen/MyListPage.dart';
 import 'package:gamview/Screen/News_page.dart';
+import 'package:gamview/Service/DataControllerUsers.dart';
+import 'package:gamview/Service/auth_service.dart';
 import 'package:gamview/Widget/BottomNavbar.dart';
 import 'package:gamview/Widget/Homepage/IconProfile.dart';
-import 'package:gamview/Widget/Homepage/Section_Riview.dart';
-import 'package:gamview/Widget/Homepage/Section_news.dart';
 import 'package:gamview/Widget/Navigation.dart';
-import 'package:gamview/Widget/Homepage/card.dart';
+import 'package:provider/provider.dart';
+
 class pagesController extends StatefulWidget {
-   const pagesController({Key? key}) : super(key: key);
+  const pagesController({Key? key}) : super(key: key);
 
   @override
   State<pagesController> createState() => _pagesControllerState();
@@ -22,25 +23,37 @@ class pagesController extends StatefulWidget {
 
 class _pagesControllerState extends State<pagesController> {
   late PageController _pageController;
+  UsersDetail? _userDetails; // Change here
   int _currentIndex = 0;
+
   @override
-   void initState() {
+  void initState() {
     super.initState();
     _pageController = PageController(initialPage: _currentIndex);
-  }
-   @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
+    initUserDetails();
   }
 
+  @override
   void onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
       _pageController.jumpToPage(index);
     });
   }
-   String getAppBarTitle() {
+
+  Future<void> initUserDetails() async {
+    try {
+      UsersDetail userDetails = await Users().getID();
+      setState(() {
+        _userDetails = userDetails;
+      });
+    } catch (error) {
+      // Handle error if needed
+      print('Error initializing UserDetails: $error');
+    }
+  }
+
+  String getAppBarTitle() {
     switch (_currentIndex) {
       case 0:
         return 'GamView';
@@ -56,33 +69,75 @@ class _pagesControllerState extends State<pagesController> {
         return '';
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer :NavigationWid(),
-        appBar: AppBar(
-          centerTitle: true,
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => CategoryProvider()),
+      ChangeNotifierProvider(create: (context) => GameProvider()),
+    ],child: 
+    Scaffold(
+      drawer: NavigationWid(),
+      appBar: AppBar(
+        centerTitle: true,
         title: Text(getAppBarTitle()),
-        leading: Builder(builder: (context) => IconButton(onPressed: (){
+        leading: FutureBuilder<UsersDetail>(
+  future: Users().getID(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return CircularProgressIndicator();
+    } else if (snapshot.hasError) {
+      return IconButton(
+        onPressed: () {
           Scaffold.of(context).openDrawer();
-        }, icon: IconProfile(wdth: 50,hght: 50,)),
-        )
+        },
+        icon: IconProfile(
+          image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftuoitre.vn%2Fca-si-goc-viet-hanni-newjeans-duoc-tim-kiem-nhieu-nhat-viet-nam-20230207145034537.htm&psig=AOvVaw0lQDgXgfaPddjCRVBgTj-J&ust=1701530723518000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJDR-YTG7oIDFQAAAAAdAAAAABAE",
+          wdth: 50,
+          hght: 50,
         ),
-        bottomNavigationBar: BottomNavbar(
-          onPageChanged: onPageChanged,
-          currentIndex: _currentIndex,
-        ),
-        body: PageView(
-          controller: _pageController,
-          onPageChanged: onPageChanged,
-          children: const [
-            Homepage(),
-            NewsListPage(),
-            DiscoverPage(),
-            CategoryPage(),
-            MyListPage(),
-          ],
-        )
+      );
+    } else if (!snapshot.hasData) {
+      // Handle the case where data is not available
+      return Text('Data not available');
+    } else {
+      try {
+        UsersDetail userDetails = snapshot.data!;
+        return IconButton(
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+          icon: IconProfile(
+            image: userDetails.imageurl ?? "", // Use a default value if null
+            wdth: 50,
+            hght: 50,
+          ),
         );
+      } catch (error) {
+        print('Error in FutureBuilder: $error');
+        return Text('Error: $error');
+      }
     }
+  },
+),
+
+      ),
+      bottomNavigationBar: BottomNavbar(
+        onPageChanged: onPageChanged,
+        currentIndex: _currentIndex,
+      ),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: onPageChanged,
+        children: const [
+          Homepage(),
+          NewsListPage(),
+          DiscoverPage(),
+          CategoryPage(),
+          MyListPage(),
+        ],
+      ),
+    )
+    );
+  }
 }

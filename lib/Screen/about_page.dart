@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamview/Service/auth_service.dart';
 import 'package:gamview/Widget/Navigation.dart';
 //membuat halaman aboutnya
 class AboutPage extends StatelessWidget {

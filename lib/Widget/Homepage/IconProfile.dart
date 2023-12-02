@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class IconProfile extends StatelessWidget {
  final double wdth;  
   final double hght;
-
-  const IconProfile({super.key, required this.wdth, required this.hght});
+  final String image;
+  const IconProfile({super.key, required this.wdth, required this.hght, required this.image});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,7 +12,7 @@ class IconProfile extends StatelessWidget {
       height: hght,
       child:
     CircleAvatar(
-      backgroundImage: AssetImage("assets/Images/GTA 6.jpg"),
+      backgroundImage: NetworkImage(image),
     )
     );
   }

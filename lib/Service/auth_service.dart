@@ -11,12 +11,14 @@ class FirebaseAuthService{
   }
    Future<void> SignIn(String email, String password) async{
       final currentuser = _auth.currentUser;
-      AuthCredential credential =  await EmailAuthProvider.credential(email: email, password: password);
-
+      final user =  await _auth.signInWithEmailAndPassword(email: email, password: password);   
   }
   Future<bool> Islogin() async{
     final currentuser = _auth.currentUser;
     return currentuser != null;
   }
+  Future<void> SignOut() async {
+  await FirebaseAuth.instance.signOut();
+}
 }
 

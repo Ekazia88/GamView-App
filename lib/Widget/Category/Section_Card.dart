@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:gamview/Models/Category.dart';
+import 'package:gamview/Models/DataGame.dart';
 import 'package:gamview/Models/DataReview.dart';
+import 'package:gamview/Provider/gameProvider.dart';
 import 'package:gamview/Widget/Card.dart';
+import 'package:provider/provider.dart';
 
 class SectionCategoryCard extends StatelessWidget {
   const SectionCategoryCard({Key? key});
 
   @override
   Widget build(BuildContext context) {
+    GameProvider gameProvider = Provider.of(context);
+    String catId = gameProvider.id;
+    gameProvider.showGameByCat("cat05");
     var lebar = MediaQuery.of(context).size.width;
     var tinggi = MediaQuery.of(context).size.height;
 
@@ -21,7 +28,7 @@ class SectionCategoryCard extends StatelessWidget {
     return Column(
       children: [
         Center(
-          child: Text("RPG", style: Theme.of(context).textTheme.bodyLarge),
+          child: Text(gameProvider.title, style: Theme.of(context).textTheme.bodyLarge),
         ),
         SizedBox(height: 10,),
         Flexible(
@@ -43,20 +50,29 @@ class SectionCategoryCard extends StatelessWidget {
                   child: Container(
                     height: totalHeight,
                     width: lebar,
-                    child: GridView.builder(
+                    child: gameProvider.gamelist.isEmpty ?
+                    Text("Kosong",style: TextStyle(
+                      color: Colors.black
+                    ),) 
+                    :GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisExtent: gridItemHeight,
                       ),
-                      itemCount: lstT.length,
+                      itemCount: gameProvider.gamelist.length,
                       itemBuilder: (context, index) {
+                       GameModel gamedata = gameProvider.gamelist[index];
+                       List<CatModel> genre = gamedata.listcat;
                         return GridTile(
                           child: CardContainer(
-                            Genre: lstT[index].Genre,
-                            Title: lstT[index].Genre,
-                            ImagePath: lstT[index].ImagePath,
-                            onTap: () {},
+                            Genre: genre.isNotEmpty ?
+                            genre.map((cat) => cat.name).join('')
+                            :'no genre',
+                            Title: '${gameProvider.gamelist.length}',
+                            ImagePath: "assets/Images/GTA 6.jpg",
+                            onTap: () {
+                            },
                           ),
                         );
                       },

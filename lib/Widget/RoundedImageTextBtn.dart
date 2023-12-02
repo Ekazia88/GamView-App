@@ -16,8 +16,12 @@ class RoundedImageTextBtn extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding : const EdgeInsets.only(right: 8),
-        child: Column(
+        padding : const EdgeInsets.only(right: 10),
+        child:
+        SizedBox(
+          width: 70,
+          child: 
+        Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
           Container(
@@ -29,23 +33,24 @@ class RoundedImageTextBtn extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
             ),
             child: Center(
-              child: Image(image: AssetImage(image), fit: BoxFit.cover,),
+              child: Image(image: NetworkImage(image), fit: BoxFit.cover,),
             ),
           ),
           SizedBox(height: 6,),
           SizedBox(
-            width: 55,
-            
             child: Center(
               child: 
-            Text(title,style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Colors.white
+            Text(title, textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Colors.white,
+              fontSize: 15,
             ),
             ),
             ),
           )
         ]),
       ),
+      )
     );
   }
 }

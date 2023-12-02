@@ -44,3 +44,41 @@
 //       'description': instance.description,
 //       'description_raw': instance.descriptionRaw,
 //     };
+
+import 'package:gamview/Models/Category.dart';
+import 'package:gamview/Models/Platform.dart';
+
+class GameModel{
+  final String idGame;
+  final String Name;
+  final List <platformModel> listplat;
+  final List <CatModel> listcat;
+  final String Released;
+  final String Sipnosis;
+  final int Rating;
+  final String image;
+  GameModel({
+    required this.idGame,
+    required this.Name,
+    required this.listplat,
+    required this.listcat,
+    required this.Released,
+    required this.Sipnosis,
+    required this.Rating,
+    required this.image,
+  });
+    factory GameModel.fromJson(Map<String, dynamic> json) {
+      List <dynamic> catlist = json['catlist'];
+      List <dynamic> platlist = json['platlist'];  
+  return GameModel(
+    idGame: json['idgame']?.toString() ?? '',
+    Name: json['Name'] ?? '',
+    listcat: catlist.map((catJson) => CatModel.fromJson(catJson)).toList(),
+    listplat: platlist.map((catJson) => platformModel.fromJson(catJson)).toList(),
+    Released: json['Released'] ?? '',
+    Sipnosis: json['Sipnosis'] ?? '',
+    Rating: json['Rating'] ?? 0,
+    image: json['image'] ?? ''
+  );
+}
+}

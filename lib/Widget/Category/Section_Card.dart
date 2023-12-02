@@ -13,7 +13,7 @@ class SectionCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     GameProvider gameProvider = Provider.of(context);
     String catId = gameProvider.id;
-    gameProvider.showGameByCat("cat05");
+    gameProvider.showGameByCat(catId);
     var lebar = MediaQuery.of(context).size.width;
     var tinggi = MediaQuery.of(context).size.height;
 

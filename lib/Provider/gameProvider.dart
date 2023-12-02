@@ -11,31 +11,38 @@ class GameProvider extends ChangeNotifier {
   String _title = "";
   String get title => _title;
   String get gameid => id;
-  final List<CatModel> catlist =[]; 
+  final List<CatModel> catlist =[] ;
   Future<void> showGameByCat(String catId) async {
     List<GameModel> newGameList = [];
     try {
-      QuerySnapshot data = await _firestore.collection('Games').where("listcat").get();
+      QuerySnapshot data = await _firestore.collection('Games').where("listcat",arrayContains:{"name" :'RTS'}).get();
       print(data.size);
       for (QueryDocumentSnapshot element in data.docs) {
-        if (element.exists) {
-          print("yes");
-          GameModel gameModel =
-              GameModel.fromJson(element.data() as Map<String, dynamic> ?? {});
+      if (element.exists) {
+        print("yes");
+        Map<String, dynamic>? gameData =
+            element.data() as Map<String, dynamic>? ?? {};
+
+        // Check if 'listcat' field is not null and is a List
+        List<dynamic>? catList = gameData['listcat'] as List<dynamic>?;
+
+        if (catList != null) {
+          GameModel gameModel = GameModel.fromJson(gameData);
           newGameList.add(gameModel);
-        }else{
-          print("no");
-          throw Exception("No Data");
         }
+      } else {
+        print("no");
+        throw Exception("No Data");
       }
-  
-      gamelist = newGameList;
-      notifyListeners();
-    } catch (error) {
-      print("Error fetching games: $error");
-      // Handle error as needed
     }
+
+    gamelist = newGameList;
+    notifyListeners();
+  } catch (error) {
+    print("Error fetching games: $error");
+    // Handle error as needed
   }
+}
 
 
   void setTitle(String title, String gameId) {

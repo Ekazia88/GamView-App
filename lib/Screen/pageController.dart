@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamview/Models/UsersDetail.dart';
 import 'package:gamview/Provider/catProvider.dart';
 import 'package:gamview/Provider/gameProvider.dart';
+import 'package:gamview/Provider/usersProvider.dart';
 import 'package:gamview/Screen/Category_page.dart';
 import 'package:gamview/Screen/Discover_page.dart';
 import 'package:gamview/Screen/Home_page.dart';
@@ -13,6 +14,8 @@ import 'package:gamview/Widget/BottomNavbar.dart';
 import 'package:gamview/Widget/Homepage/IconProfile.dart';
 import 'package:gamview/Widget/Navigation.dart';
 import 'package:provider/provider.dart';
+
+import '../Provider/MyListProvider.dart';
 
 class pagesController extends StatefulWidget {
   const pagesController({Key? key}) : super(key: key);
@@ -75,6 +78,8 @@ class _pagesControllerState extends State<pagesController> {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => CategoryProvider()),
       ChangeNotifierProvider(create: (context) => GameProvider()),
+      ChangeNotifierProvider(create: (context) => UsersProviders()),
+      ChangeNotifierProvider(create: (context) => MyListProvider())
     ],child: 
     Scaffold(
       drawer: NavigationWid(),

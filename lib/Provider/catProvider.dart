@@ -30,7 +30,6 @@ class CategoryProvider with ChangeNotifier{
     }
   }
 Future<void> getGamesByCategory(String categoryId,String title) async {
-  
-    _gameProvider.setTitle(title,categoryId);
+    await _gameProvider.showGameByCat(categoryId);
   }
 }

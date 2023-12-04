@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gamview/Provider/MyListProvider.dart';
 import 'package:gamview/Provider/catProvider.dart';
+import 'package:gamview/Provider/usersProvider.dart';
+import 'package:gamview/Service/DataControllerUsers.dart';
 import 'package:gamview/Widget/BottomNavbar.dart';
 import 'package:gamview/Widget/Category/Section_Card.dart';
 import 'package:gamview/Widget/Category/Section_Category_list.dart';
@@ -14,12 +17,13 @@ class CategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    Scaffold(
         body: Column(
           children: [
             SizedBox(height: 12,),
             SectionCategoryList(),
-            SizedBox(height: 10,),
+            SizedBox(height: 12,),
             Expanded(
               child: SectionCategoryCard(),
             ),

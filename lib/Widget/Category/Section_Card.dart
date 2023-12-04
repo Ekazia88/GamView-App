@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gamview/Models/Category.dart';
 import 'package:gamview/Models/DataGame.dart';
 import 'package:gamview/Models/DataReview.dart';
+import 'package:gamview/Models/UsersDetail.dart';
+import 'package:gamview/Models/UsersList.dart';
+import 'package:gamview/Provider/MyListProvider.dart';
 import 'package:gamview/Provider/gameProvider.dart';
+import 'package:gamview/Provider/usersProvider.dart';
 import 'package:gamview/Widget/Card.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +16,11 @@ class SectionCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GameProvider gameProvider = Provider.of(context);
-    String catId = gameProvider.id;
+    MyListProvider myListProvider = Provider.of(context);
+    UsersProviders user = Provider.of(context);
+    user.getUsers();
+    UsersDetail? usersDetail = user.users;
+    String catId = gameProvider.catId;
     gameProvider.showGameByCat(catId);
     var lebar = MediaQuery.of(context).size.width;
     var tinggi = MediaQuery.of(context).size.height;
@@ -67,14 +75,18 @@ class SectionCategoryCard extends StatelessWidget {
                         return GridTile(
                           child: CardContainer(
                             Genre: genre.isNotEmpty ?
-                            genre.map((cat) => cat.name).join('')
+                            genre.map((cat) => cat.name).join(',')
                             :'no genre',
                             Title: '${gameProvider.gamelist.length}',
-                            ImagePath: "assets/Images/GTA 6.jpg",
+                            ImagePath: "assets/Images/Howard_legacy_news.jpg",
                             onTap: () {
+                            },
+                            onPressed: () => {
+                              myListProvider.addList(usersDetail!.username, "Onprogress", gamedata)
                             },
                           ),
                         );
+
                       },
                     ),
                   ),

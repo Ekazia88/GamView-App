@@ -48,37 +48,53 @@
 import 'package:gamview/Models/Category.dart';
 import 'package:gamview/Models/Platform.dart';
 
-class GameModel{
-  final String idGame;
-  final String Name;
-  final List <platformModel> listplat;
-  final List <CatModel> listcat;
-  final String Released;
-  final String Sipnosis;
-  final int Rating;
-  final String image;
+class GameModel {
+  String idGame;
+  String name;
+  String Released;
+  String Sinopsis;
+  int Rating;
+  String image;
+  List<CatModel> listcat;
+  List<platformModel> listplat;
+
   GameModel({
     required this.idGame,
-    required this.Name,
-    required this.listplat,
-    required this.listcat,
+    required this.name,
     required this.Released,
-    required this.Sipnosis,
+    required this.Sinopsis,
     required this.Rating,
     required this.image,
+    required this.listcat,
+    required this.listplat,
   });
-    factory GameModel.fromJson(Map<String, dynamic> json) {
-      List <dynamic> catlist = json['catlist'];
-      List <dynamic> platlist = json['platlist'];  
-  return GameModel(
-    idGame: json['idgame']?.toString() ?? '',
-    Name: json['Name'] ?? '',
-    listcat: catlist.map((catJson) => CatModel.fromJson(catJson)).toList(),
-    listplat: platlist.map((catJson) => platformModel.fromJson(catJson)).toList(),
-    Released: json['Released'] ?? '',
-    Sipnosis: json['Sipnosis'] ?? '',
-    Rating: json['Rating'] ?? 0,
-    image: json['image'] ?? ''
-  );
+
+  factory GameModel.fromJson(Map<String, dynamic> json) {
+    // Handle null checks and create instances of CatModel and PlatformModel here
+    List<CatModel> catList = [];
+    if (json['listcat'] != null) {
+      for (var cat in json['listcat']) {
+        catList.add(CatModel.fromJson(cat));
+      }
+    }
+
+    List<platformModel> platList = [];
+    if (json['listplat'] != null) {
+      for (var plat in json['listplat']) {
+        platList.add(platformModel.fromJson(plat));
+      }
+    }
+
+    return GameModel(
+      idGame: json['idGame'] ?? '',
+      name: json['Name'] ?? '',
+      Released: json['Released'] ?? '',
+      Sinopsis: json['Sipnosis'] ?? '',
+      Rating: json['Rating'] ?? 0,
+      image: json['image'] ?? '',
+      listcat: catList,
+      listplat: platList,
+    );
+  }
 }
-}
+

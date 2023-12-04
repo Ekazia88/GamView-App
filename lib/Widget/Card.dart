@@ -5,7 +5,8 @@ class CardContainer extends StatelessWidget {
   final String Genre;
   final String ImagePath;
   final void Function()? onTap;
-  const CardContainer({super.key, required this.Title, required this.Genre, required this.ImagePath, this.onTap});
+  final void Function ()? onPressed;
+  const CardContainer({super.key, required this.Title, required this.Genre, required this.ImagePath, this.onTap, this.onPressed});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -23,7 +24,7 @@ class CardContainer extends StatelessWidget {
               ),
         ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children : [
               Stack(
                 children: [
@@ -45,16 +46,17 @@ class CardContainer extends StatelessWidget {
                       Container(
                         width: 100,
                         height: 50,
-                        color: Colors.amber,
                       ),
                       SizedBox(width: 55,),
                       Container(
                         width: 35,
                         height: 35,
-                        color: Colors.amber,
                         child: Center(
-                          child: Icon(
-                            Icons.holiday_village
+                          child: IconButton(
+                            onPressed: onPressed,
+                            icon:Icon(
+                            Icons.add_box
+                            ),
                           ),
                         ),
                       ),

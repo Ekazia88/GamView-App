@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
         return AlertDialog(
           title: Text(
             title,
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(),
           ),
           content: Text(
             content,

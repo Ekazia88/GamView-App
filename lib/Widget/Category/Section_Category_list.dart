@@ -14,19 +14,23 @@ class SectionCategoryList extends StatelessWidget {
     return SizedBox(
       height: 100,
       child: ListView.builder(
-              itemCount: catprovider.catlist.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (_, index) {
-                return RoundedImageTextBtn(
-                  image: catprovider.catlist[index].Catimage,
-                  title: catprovider.catlist[index].name,
-                  TextColor: Colors.black,
-                  onTap: () {
-                    gameProvider.showGameByCat(catprovider.catlist[index].CatId);
-                  },
-                );
-              },
-            ),
+        itemCount: catprovider.catlist.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (_, index) {
+          return RoundedImageTextBtn(
+            image: catprovider.catlist[index].Catimage,
+            title: catprovider.catlist[index].name,
+            TextColor: Colors.black,
+            onTap: () {
+              gameProvider.setCategory(
+                catprovider.catlist[index].CatId,
+                catprovider.catlist[index].name,
+              );
+              gameProvider.showGameByCat(catprovider.catlist[index].CatId);
+            },
+          );
+        },
+      ),
     );
   }
 }

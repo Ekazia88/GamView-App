@@ -22,7 +22,7 @@ class SectItem extends StatelessWidget {
      user.getUsers();
      
      UsersDetail? usersdetail = user.users;
-     myListProvider.GetUsersList(usersdetail!.username, myListProvider.status);
+     myListProvider.GetUsersList(usersdetail!.Uid, myListProvider.status);
           return ListView.builder(
             shrinkWrap: true,
             itemCount: myListProvider.Lists.length,
@@ -35,7 +35,7 @@ class SectItem extends StatelessWidget {
                       title: list.name,
                       platform: list.listplatform.join(","),
                       Status: myListProvider.status,
-                      user: user.username!,
+                      uid: user.uid!,
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) {
@@ -47,7 +47,7 @@ class SectItem extends StatelessWidget {
                         String? docid = await myListProvider.getDocIdList(usersdetail.username, myListProvider.status, list.idGame);
                         myListProvider.removeList(
                           docid!,
-                          usersdetail!.username,
+                          usersdetail!.Uid,
                           myListProvider.status,
                         );
                       },
@@ -66,7 +66,7 @@ class CardBoxList extends StatelessWidget {
     required this.onTap,
     required this.TahunRilis,
     required this.onPressed, 
-    required this.list, required this.user, required this.Status,
+    required this.list, required this.uid, required this.Status,
 
   }) : super(key: key);
 
@@ -78,7 +78,7 @@ class CardBoxList extends StatelessWidget {
   final void Function()? onTap;
   final void Function()? onPressed;
   final MyList list;
-  final String user;
+  final String uid;
   final String Status;
 
   @override
@@ -138,7 +138,7 @@ class CardBoxList extends StatelessWidget {
     MaterialPageRoute(builder: (context) {
       return EditListPage(
         idx: list.idGame,
-        username: user,
+        uid: uid,
         status: Status,
       );
     }),

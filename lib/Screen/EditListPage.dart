@@ -14,12 +14,12 @@ class EditListPage extends StatefulWidget {
   const EditListPage({
     Key? key,
     required this.idx,
-    required this.username,
+    required this.uid,
     required this.status,
   }) : super(key: key);
 
   final String idx;
-  final String username;
+  final String uid;
   final String status;
 
   @override
@@ -48,7 +48,7 @@ class _EditListPageState extends State<EditListPage> {
   Widget build(BuildContext context) {
     return 
     FutureBuilder<MyList?>(
-      future: Fecthdata(widget.username, widget.status, widget.idx),
+      future: Fecthdata(widget.uid, widget.status, widget.idx),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
@@ -91,7 +91,7 @@ class _EditListPageState extends State<EditListPage> {
                 Spacer(),
                 TextButton(
                   onPressed: () {
-                    Savedata(widget.username, selectedStatus, widget.status, getRatingValue(), getRatingValue(), widget.idx, myList!);
+                    Savedata(widget.uid, selectedStatus, widget.status, getRatingValue(), getRatingValue(), widget.idx, myList!);
                     Navigator.pop(context);
                   },
                   child: Text(

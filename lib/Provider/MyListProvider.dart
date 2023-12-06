@@ -15,22 +15,19 @@ class MyListProvider extends ChangeNotifier{
     _status=status;
     notifyListeners();
   }
- Future<void> GetUsersList(String Username, String status) async {
+ Future<void> GetUsersList(String uid, String status) async {
   List<MyList> newLists = [];
   CollectionReference UserList = _firestore.collection('UsersList');
-
   try {
-    QuerySnapshot querySnapshot = await UserList.doc(Username).collection(status).get();
+    QuerySnapshot querySnapshot = await UserList.doc(uid).collection(status).get();
 
     // Loop through the documents in the snapshot
     for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
       // Check if the document exists
       if (documentSnapshot.exists) {
-        
         // Extract the data as a Map<String, dynamic>
         Map<String, dynamic>? userData = documentSnapshot.data() as Map<String, dynamic>?;
-
-         dynamic listPlatformData = userData!['listplatform'];
+        dynamic listPlatformData = userData!['listplatform'];
     List<String> listsData = List<String>.from(listPlatformData);
     // Create a new MyList object using the listsData
     MyList lists = MyList.fromJson({
@@ -38,11 +35,14 @@ class MyListProvider extends ChangeNotifier{
       'name': userData['name'],
       'released': userData['released'],
       'imageurl': userData['imageurl'],
+      'Progressgame' : 0,
+      'ratingUsers' : 0,
       'listplatform': listsData,
     });
     // Add the MyList object to the newLists
     newLists.add(lists);
     }
+     print(newLists);
     }
   } catch (e) {
     // Handle any errors that might occur during the process
@@ -55,29 +55,30 @@ class MyListProvider extends ChangeNotifier{
 }
 
 
-  Future <void> addList(String Username,String status,GameModel gameModel) async{
+  Future <void> addList(String uid,String status,GameModel gameModel) async{
   final CollectionReference UsersList = _firestore.collection('UsersList');
-
- UsersList.doc(Username).collection(status).doc().set({
+  
+ UsersList.doc(uid).set({
   "idGame" : gameModel.idGame,
   "name" : gameModel.name,
   "released": gameModel.Released,
   "imageurl": gameModel.image,
   "ratingUsers" : 0,
   "Progressgame":0,
+  'Status' : status,
   "listplatform" : gameModel.listplat.map((e) => e.name),
  });
   }
-  Future <void> removeList(String username, String status, String id) async{
-    final CollectionReference UsersList =_firestore.collection('UsersList').doc(username).collection(status);
+  Future <void> removeList(String uid, String status, String id) async{
+    final CollectionReference UsersList =_firestore.collection('UsersList').doc(uid).collection(status);
     await UsersList.doc(id).delete(); 
   }
   
-  MyList? getMyListByid(String docId,String username, String status){
-    final CollectionReference UsersList = _firestore.collection('UsersList').doc(username).collection(status);
+  MyList? getMyListByid(String docId,String uid,String status){
+    final CollectionReference UsersList = _firestore.collection('UsersList').doc(uid).collection(status);
     try{
     DocumentSnapshot data = UsersList.doc(docId).get() as DocumentSnapshot<Object?>;
-
+  
     if(data.exists){
       Map<String, dynamic> datajson =data.data() as Map<String,dynamic>;
       MyList myList = MyList.fromJson(datajson);
@@ -90,10 +91,9 @@ class MyListProvider extends ChangeNotifier{
       return null;
     }
   }
-  Future<String?> getDocIdList(String Username, String status, String idx) async {
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Future<String?> getDocIdList(String uid, String status, String idx) async {
     final CollectionReference UsersList =
-        _firestore.collection('UsersList').doc(Username).collection(status);
+        _firestore.collection('UsersList').doc(uid).collection(status);
 
     QuerySnapshot querySnapshot = await UsersList.get();
 
@@ -104,6 +104,4 @@ class MyListProvider extends ChangeNotifier{
     }
     return null;
   }
-
-  
 }

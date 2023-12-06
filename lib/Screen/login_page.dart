@@ -266,15 +266,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 fit: BoxFit.fill,
                               ),
                             ),
-                            child: IconButton(
-                                onPressed: () {
-                                  SelectImage();
-                                },
-                                icon: Icon(
-                                  Icons.person,
-                                  size: 50.0,
-                                  color: Colors.grey[600],
-                                )),
                           )
                         : Container(
                             width: 100.0,
@@ -304,7 +295,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               SelectImage();
                             },
                             icon: Icon(
-                              Icons.add,
+                              Icons.camera_enhance,
                               size: 20.0,
                               color: Colors.white,
                             )),

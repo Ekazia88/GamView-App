@@ -7,6 +7,7 @@ class MyList {
   String imageurl;
   int ratingUsers;
   int ProgressGame;
+  String Status;
   List<String> listplatform;
 
   MyList({
@@ -16,6 +17,7 @@ class MyList {
     required this.imageurl,
     required this.ratingUsers,
     required this.ProgressGame,
+    required this.Status,
     required this.listplatform,
   });
 
@@ -23,7 +25,6 @@ class MyList {
     List<String> platList = [];
     if (json['listplatform'] != null) {
       for (var plat in json['listplatform']) {
-        // Assuming 'plat' is a string
         platList.add(plat as String);
       }
     }
@@ -35,6 +36,7 @@ class MyList {
       imageurl: json['imageurl'] ?? '',
       ratingUsers: json['ratingUsers'] ?? 0,
       ProgressGame: json['progressgame'] ?? 0,
+      Status: json['Status'] ?? '',
       listplatform: platList,
     );
   }

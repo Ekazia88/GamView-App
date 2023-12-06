@@ -19,7 +19,8 @@ class UsersDetail {
       DateCreated: json['DateCreated'] ?? '', // Use empty string if DateCreated is null
       Email: json['Email'] ?? '', // Use empty string if Email is null
       imageurl: json['imageurl'] ?? '', // Use empty string if Image is null
-      username: json['username'] ?? '', // Use empty string if username is null
+      username: json['username'] ?? '',
+       // Use empty string if username is null
     );
   }
 
@@ -29,7 +30,8 @@ class UsersDetail {
       DateCreated: json['DateCreated'] ?? '', // Use empty string if DateCreated is null
       Email: json['Email'] ?? '', // Use empty string if Email is null
       imageurl: json['imageurl'] ?? '', // Use empty string if Image is null
-      username: json['username'] ?? '', // Use empty string if username is null
+      username: json['username'] ?? '',
+       // Use empty string if username is null
     );
   }
 

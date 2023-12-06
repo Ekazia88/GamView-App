@@ -1,10 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gamview/Service/auth_service.dart';
+import 'package:intl/intl.dart';
+import '../Models/UsersDetail.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  final UsersDetail users;
+  const ProfilePage({Key? key, required this.users}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+   
+    DateTime dt = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(users.DateCreated);
+    String convertdate = DateFormat.yMMMM().format(dt);
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
@@ -21,11 +30,10 @@ class ProfilePage extends StatelessWidget {
                   height: 100.0,
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
-                    color: Colors.red,
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                          'https://myanimelist.net/images/userimages/1234567.jpg'),
+                          users.imageurl)
                     ),
                   ),
                 ),
@@ -34,22 +42,25 @@ class ProfilePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Nama User',
+                      users.username,
                       style: TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
+                    ),  
                     SizedBox(height: 8.0),
-                    Text(
-                      'Location: Indonesia',
+                    FutureBuilder<bool>(future: FirebaseAuthService().Islogin(), builder:(context,snapshot){
+                     bool? active = snapshot.data;
+                     return Text(
+                      active! ? "Status : Online" : "Status : Offline",
                       style: TextStyle(
                         fontSize: 16.0,
                       ),
-                    ),
+                    );
+  }),
                     SizedBox(height: 8.0),
                     Text(
-                      'Joined: December 2022',
+                      'Joined: $convertdate',
                       style: TextStyle(
                         fontSize: 16.0,
                       ),
@@ -59,55 +70,108 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 16.0),
+            FutureBuilder<List>(future: countList(users), builder: (context,snapshot){
+              if(snapshot.connectionState == ConnectionState.waiting){
+                return Center(
+                  child: 
+                CircularProgressIndicator()
+                );
+              }else if (snapshot.hasError){
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image:AssetImage(
+                        'assets/Icon/Error Icon.png' 
+                    ),
+                    )
+                  ],
+                  
+                );
+              }else{
+            List? count = snapshot.data;
+
+            return
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '0\nPosts',
+                      '${count![0]}',
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      '0\nFollowers',
+                     Text(
+                      'Onprogress',
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-                Column(
+              ]),
+                   Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '0\nFollowing',
+                      '${count![1]}',
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      '0\nFavorites',
+                     Text(
+                      'Finish',
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
+              ]),
+                   Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${count![2]}',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                     Text(
+                      'WishList',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+              ]),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${count![3]}',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                     Text(
+                      'Favorit',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+              ]),
               ],
-            ),
+            );
+              }
+            }),
             SizedBox(height: 16.0),
             Text(
               'Favorite Games:',
@@ -155,4 +219,23 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+  Future<List<int>> countList(UsersDetail users) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference countonproggress = firestore.collection('UsersList').doc(users.username).collection('Onprogress');
+  CollectionReference countfinished = firestore.collection('UsersList').doc(users.username).collection('Finish');
+  CollectionReference countWishlisted = firestore.collection('UsersList').doc(users.username).collection('WishList');
+  CollectionReference countFavorited = firestore.collection('UsersList').doc(users.username).collection('Favorited');
+
+  var onProgressQuery = await countonproggress.get();
+  var finishedQuery = await countfinished.get();
+  var wishListedQuery = await countWishlisted.get();
+  var favoritedQuery = await countFavorited.get();
+
+  var dataOnProgress = onProgressQuery.size;
+  var dataFinish = finishedQuery.size;
+  var dataWishList = wishListedQuery.size;
+  var dataFavorit = favoritedQuery.size;
+
+  return [dataOnProgress, dataFinish, dataWishList, dataFavorit];
+}
 }

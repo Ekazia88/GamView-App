@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamview/Service/auth_service.dart';
-// import 'package:your_project_name/Models/DataNews.dart';
 import '../Widget/Navigation.dart';
+import 'package:intl/intl.dart';
 
 class AddNewsScreen extends StatelessWidget {
   const AddNewsScreen({Key? key}) : super(key: key);
@@ -23,7 +23,6 @@ class AddNewsScreen extends StatelessWidget {
   }
 }
 
-// Creating a form for adding news
 class AddNewsForm extends StatefulWidget {
   const AddNewsForm({Key? key}) : super(key: key);
 
@@ -34,23 +33,28 @@ class AddNewsForm extends StatefulWidget {
 class _AddNewsFormState extends State<AddNewsForm> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController imageController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
   final TextEditingController contentController = TextEditingController();
+
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: selectedDate,
+  //     firstDate: DateTime(2000),
+  //     lastDate: DateTime(2101),
+  //   );
+
+  //   if (picked != null && picked != selectedDate)
+  //     setState(() {
+  //       selectedDate = picked;
+  //     });
+  // }
 
   void addNews(BuildContext context) {
     String title = titleController.text.trim();
     String image = imageController.text.trim();
-    String date = dateController.text.trim();
+    String date = DateFormat('yyyy-MM-dd').format(selectedDate);
     String content = contentController.text.trim();
-
-    // if (title.isNotEmpty) {
-    //   listNews.add(DataNews(
-    //     title: title,
-    //     image: image,
-    //     date: date,
-    //     content: content,
-    //   ));
-    // }
 
     showDialog(
       context: context,
@@ -97,7 +101,7 @@ class _AddNewsFormState extends State<AddNewsForm> {
               SizedBox(height: 16),
               _buildTextField(imageController, "Image URL"),
               SizedBox(height: 16),
-              _buildTextField(dateController, "Date"),
+              _buildDateField("Date"),
               SizedBox(height: 16),
               _buildTextField(contentController, "Content"),
               SizedBox(height: 10),
@@ -128,6 +132,41 @@ class _AddNewsFormState extends State<AddNewsForm> {
           border: InputBorder.none,
           contentPadding: EdgeInsets.all(8.0),
         ),
+      ),
+    );
+  }
+
+  Widget _buildDateField(String label) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white),
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              // onTap: () => _selectDate(context),
+              child: AbsorbPointer(
+                child: TextFormField(
+                  readOnly: true,
+                  controller: TextEditingController(
+                      text: DateFormat('yyyy-MM-dd').format(selectedDate)),
+                  decoration: InputDecoration(
+                    labelText: label,
+                    labelStyle: TextStyle(color: Colors.white),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(8.0),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // IconButton(
+          //   icon: Icon(Icons.calendar_today),
+          //   onPressed: () => _selectDate(context),
+          // ),
+        ],
       ),
     );
   }

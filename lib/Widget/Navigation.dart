@@ -6,6 +6,7 @@ import 'package:gamview/Service/DataControllerUsers.dart';
 import 'package:gamview/Service/auth_service.dart';
 import 'package:gamview/Widget/Homepage/IconProfile.dart';
 
+import '../Admin/Manajemen_News.dart';
 import '../Admin/input_LatestNews.dart';
 
 //membuat sidebar untuk antar halaman
@@ -108,6 +109,18 @@ class NavigationWid extends StatelessWidget {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
                   return AddNewsScreen();
+                }));
+              },
+            ),
+            ListTile(
+              title: const Text(
+                "Display Manajemen",
+                style: TextStyle(fontSize: 20),
+              ),
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return NewsScreen();
                 }));
               },
             ),

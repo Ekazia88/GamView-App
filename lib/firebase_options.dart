@@ -23,9 +23,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -44,37 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBitC7D4FxwLNO6ZICHjUvv9DJNGT8kSKg',
-    appId: '1:405765761328:web:4ae7f777658b898b6800f5',
-    messagingSenderId: '405765761328',
-    projectId: 'gamview-app',
-    authDomain: 'gamview-app.firebaseapp.com',
-    storageBucket: 'gamview-app.appspot.com',
+    apiKey: 'AIzaSyDtsHM7I8wxZlzy-QHPuUL0wYBRzvNae3I',
+    appId: '1:101962786090:web:d30a52a12ab8bbcec72a53',
+    messagingSenderId: '101962786090',
+    projectId: 'gamview-a3859',
+    authDomain: 'gamview-a3859.firebaseapp.com',
+    storageBucket: 'gamview-a3859.appspot.com',
+    measurementId: 'G-CW2SHJN8JQ',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDoDdX9W-kptielyXtgNkQyN0rg6cE-564',
-    appId: '1:405765761328:android:193549fafaf991ba6800f5',
-    messagingSenderId: '405765761328',
-    projectId: 'gamview-app',
-    storageBucket: 'gamview-app.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB4avKIHLSXQ_zjGSVlMlf58KGXLBgMxSo',
-    appId: '1:405765761328:ios:ed4da499dda930616800f5',
-    messagingSenderId: '405765761328',
-    projectId: 'gamview-app',
-    storageBucket: 'gamview-app.appspot.com',
-    iosBundleId: 'com.example.gamview',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB4avKIHLSXQ_zjGSVlMlf58KGXLBgMxSo',
-    appId: '1:405765761328:ios:37e157c921c522346800f5',
-    messagingSenderId: '405765761328',
-    projectId: 'gamview-app',
-    storageBucket: 'gamview-app.appspot.com',
-    iosBundleId: 'com.example.gamview.RunnerTests',
+    apiKey: 'AIzaSyB3fyw2HQ259TcLSkp_Ly2yK6dlPBeVn-0',
+    appId: '1:101962786090:android:5a1e7cbc734bb2e2c72a53',
+    messagingSenderId: '101962786090',
+    projectId: 'gamview-a3859',
+    storageBucket: 'gamview-a3859.appspot.com',
   );
 }

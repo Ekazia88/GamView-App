@@ -96,5 +96,20 @@ class GameModel {
       listplat: platList,
     );
   }
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> catListJson = listcat.map((cat) => cat.toJson()).toList();
+    List<Map<String, dynamic>> platListJson = listplat.map((plat) => plat.toJson()).toList();
+
+    return {
+      'idGame': idGame,
+      'Name': name,
+      'Released': Released,
+      'Sipnosis': Sinopsis,
+      'Rating': Rating,
+      'image': image,
+      'listcat': catListJson,
+      'listplat': platListJson,
+    };
+  }
 }
 

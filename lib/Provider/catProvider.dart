@@ -9,13 +9,15 @@ import 'gameProvider.dart';
 
 class CategoryProvider with ChangeNotifier{
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  List<CatModel> catlist = [];
+  List<CatModel> catlist = [
+    
+  ];
   final GameProvider _gameProvider = GameProvider();
 
   Future getCatData() async{
     List<CatModel> newcatlist = [];
       try {
-      QuerySnapshot data = await firestore.collection("Category").get();
+      QuerySnapshot data = await firestore.collection("category").get();
       for (QueryDocumentSnapshot element in data.docs) {
         if (element.exists) {
           CatModel catModel = CatModel.fromJson(element.data());

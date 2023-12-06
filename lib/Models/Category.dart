@@ -17,5 +17,11 @@ class CatModel{
     name: json['name'] ?? '',
     Catimage: json['Catimage']?? '',
   );
+
+ Map<String, dynamic> toJson() => {
+        'CatId': CatId,
+        'name': name,
+        'Catimage': Catimage,
+      };
 }
 

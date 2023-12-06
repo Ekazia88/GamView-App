@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "405765761328",
-    "firebase_url": "https://gamview-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "gamview-app",
-    "storage_bucket": "gamview-app.appspot.com"
+    "project_number": "101962786090",
+    "project_id": "gamview-a3859",
+    "storage_bucket": "gamview-a3859.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:405765761328:android:193549fafaf991ba6800f5",
+        "mobilesdk_app_id": "1:101962786090:android:5a1e7cbc734bb2e2c72a53",
         "android_client_info": {
           "package_name": "com.example.gamview"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDoDdX9W-kptielyXtgNkQyN0rg6cE-564"
+          "current_key": "AIzaSyB3fyw2HQ259TcLSkp_Ly2yK6dlPBeVn-0"
         }
       ],
       "services": {

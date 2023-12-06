@@ -226,6 +226,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           .where('username', isEqualTo: username)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
+        
       } else {
         var uuid = Uuid();
         String id = uuid.v4();

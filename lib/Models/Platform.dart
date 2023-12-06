@@ -15,4 +15,11 @@ class platformModel{
     name: json['name'] ?? '',
     image: json['image']?? '',
   );
+
+ Map<String, dynamic> toJson() => {
+        'Idplat': Idplat,
+        'name': name,
+        'image': image,
+      };
+      
 }

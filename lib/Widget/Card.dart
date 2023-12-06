@@ -55,7 +55,8 @@ class CardContainer extends StatelessWidget {
                           child: IconButton(
                             onPressed: onPressed,
                             icon:Icon(
-                            Icons.add_box
+                            Icons.add_box,
+                            color: Colors.white,
                             ),
                           ),
                         ),

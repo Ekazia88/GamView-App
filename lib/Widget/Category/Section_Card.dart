@@ -77,7 +77,7 @@ class SectionCategoryCard extends StatelessWidget {
                             Genre: genre.isNotEmpty ?
                             genre.map((cat) => cat.name).join(',')
                             :'no genre',
-                            Title: '${gameProvider.gamelist.length}',
+                            Title: '${gamedata.name}',
                             ImagePath: "assets/Images/Howard_legacy_news.jpg",
                             onTap: () {
                             },

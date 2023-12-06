@@ -57,8 +57,9 @@ class MyListProvider extends ChangeNotifier{
 
   Future <void> addList(String uid,String status,GameModel gameModel) async{
   final CollectionReference UsersList = _firestore.collection('UsersList');
-  
- UsersList.doc(uid).set({
+  try{
+ UsersList.doc(uid).update({
+  status : FieldValue.arrayUnion([{
   "idGame" : gameModel.idGame,
   "name" : gameModel.name,
   "released": gameModel.Released,
@@ -67,7 +68,12 @@ class MyListProvider extends ChangeNotifier{
   "Progressgame":0,
   'Status' : status,
   "listplatform" : gameModel.listplat.map((e) => e.name),
+  }
+  ])
  });
+  }catch(e){
+    print(e);
+  }
   }
   Future <void> removeList(String uid, String status, String id) async{
     final CollectionReference UsersList =_firestore.collection('UsersList').doc(uid).collection(status);

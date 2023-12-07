@@ -36,10 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
 Widget build(BuildContext context) {
   UsersProviders usersProviders = context.watch<UsersProviders>();
   final auth = FirebaseAuthService();
-  return Provider<UsersProviders>(
-    create: (_) => UsersProviders(),
-    builder: (context,child){
-      return
+  return 
   Scaffold(
     appBar: AppBar(
       title: Center(
@@ -143,7 +140,6 @@ Widget build(BuildContext context) {
     ),
   );
 }
-  );
 }
 
 
@@ -166,4 +162,4 @@ Widget build(BuildContext context) {
       },
     );
   }
-}
+

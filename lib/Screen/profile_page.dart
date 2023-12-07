@@ -136,7 +136,7 @@ class ProfilePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '${count![2]}',
+                      '${count![3]}',
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -154,7 +154,7 @@ class ProfilePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '${count![3]}',
+                      '${count![2]}',
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -187,11 +187,7 @@ class ProfilePage extends StatelessWidget {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.network(
-                          'URL_GAMBAR_GAME_1',
-                          height: 50.0,
-                          width: 50.0,
-                        ),
+                       
                         SizedBox(height: 8.0),
                         Text('Nama Game 1'),
                       ],
@@ -201,11 +197,6 @@ class ProfilePage extends StatelessWidget {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.network(
-                          'URL_GAMBAR_GAME_2',
-                          height: 50.0,
-                          width: 50.0,
-                        ),
                         SizedBox(height: 8.0),
                         Text('Nama Game 2'),
                       ],
@@ -221,21 +212,18 @@ class ProfilePage extends StatelessWidget {
   }
   Future<List<int>> countList(UsersDetail users) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  CollectionReference countonproggress = firestore.collection('UsersList').doc(users.username).collection('Onprogress');
-  CollectionReference countfinished = firestore.collection('UsersList').doc(users.username).collection('Finish');
-  CollectionReference countWishlisted = firestore.collection('UsersList').doc(users.username).collection('WishList');
-  CollectionReference countFavorited = firestore.collection('UsersList').doc(users.username).collection('Favorited');
+  CollectionReference collectRef = firestore.collection('UsersDetail').doc(users.Uid).collection('Listusers');
+  QuerySnapshot countFinish =  await collectRef.where("status", isEqualTo: "Finish").get();
+QuerySnapshot countOnprogress =  await collectRef.where("status", isEqualTo: "Onprogress").get();
+QuerySnapshot countfavorit =  await collectRef.where("status", isEqualTo: "favorit").get();
+QuerySnapshot countWishlist =  await collectRef.where("status", isEqualTo: "WishList").get();
 
-  var onProgressQuery = await countonproggress.get();
-  var finishedQuery = await countfinished.get();
-  var wishListedQuery = await countWishlisted.get();
-  var favoritedQuery = await countFavorited.get();
+ int sizefinish = countFinish.size;
+ int sizeOnprogress = countOnprogress.size;
+ int sizefavorit = countfavorit.size;
+ int sizeWishList = countWishlist.size;
+ print(sizeWishList);
+  return [sizefinish, sizeOnprogress, sizefavorit, sizeWishList];
 
-  var dataOnProgress = onProgressQuery.size;
-  var dataFinish = finishedQuery.size;
-  var dataWishList = wishListedQuery.size;
-  var dataFavorit = favoritedQuery.size;
-
-  return [dataOnProgress, dataFinish, dataWishList, dataFavorit];
 }
 }

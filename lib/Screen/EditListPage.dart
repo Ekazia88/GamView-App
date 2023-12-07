@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gamview/Models/UsersDetail.dart';
 import 'package:gamview/Provider/MyListProvider.dart';
 import 'package:gamview/Service/DataControllerUsers.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +16,13 @@ class EditListPage extends StatefulWidget {
     Key? key,
     required this.idx,
     required this.uid,
-    required this.status,
+    required this.status, required this.list,
   }) : super(key: key);
 
   final String idx;
   final String uid;
   final String status;
+  final MyList? list;
 
   @override
   State<EditListPage> createState() => _EditListPageState();
@@ -46,28 +48,8 @@ class _EditListPageState extends State<EditListPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return 
-    FutureBuilder<MyList?>(
-      future: Fecthdata(widget.uid, widget.status, widget.idx),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            body: CircularProgressIndicator()
-            );
-        } else if (snapshot.hasError) {
-          return Scaffold(
-            body: Center(
-              child: Text('Error: ${snapshot.error}'),
-            ),
-          );
-        } else {
-          MyList? myList = snapshot.data;
-          return _buildUI(context, myList,);
+          return _buildUI(context, widget.list,);
         }
-      },
-    );
-  }
-
   Widget _buildUI(BuildContext context, MyList? myList) {
     List <String> statuslist =["Onprogress","Finish","WishList"];
     String setStatus = widget.status;
@@ -91,7 +73,7 @@ class _EditListPageState extends State<EditListPage> {
                 Spacer(),
                 TextButton(
                   onPressed: () {
-                    Savedata(widget.uid, selectedStatus, widget.status, getRatingValue(), getRatingValue(), widget.idx, myList!);
+                    Savedata(selectedStatus, getRatingValue(), widget.uid, getprogressValue(), myList!.idGame, myList);
                     Navigator.pop(context);
                   },
                   child: Text(
@@ -180,105 +162,26 @@ class _EditListPageState extends State<EditListPage> {
       ),
     );
   }
-Future<String?> getDocIdList(String Username, String status, String idx) async {
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    final CollectionReference UsersList =
-        _firestore.collection('UsersList').doc(Username).collection(status);
-    try{
-    QuerySnapshot querySnapshot = await UsersList.get();
-    for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
-       Map<String, dynamic>? userData = documentSnapshot.data() as Map<String, dynamic>?;
-      if (userData!['idGame'] == idx) {
-        return documentSnapshot.id;
-      }
-    }
-    return null;
-    }catch(e){
-      print("Error: $e");
-      return null;
-    }
-  }
-Future <void> Savedata(String Username, String newStatus,String Status, int rating, int progressgame,String idx,MyList updatelist) async {
+Future <void> Savedata(String Status, int rating,String uid, int progressgame, String idgame,MyList updatelist) async {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final CollectionReference UsersList = _firestore.collection('UsersList').doc(Username).collection(newStatus);
-  String? docId = await getDocIdList(Username, Status, idx);
-  var uuid = Uuid();
-  String docuid = uuid.v4();
-  try{
-    DocumentSnapshot data = await UsersList.doc(docId).get();
-    if(data.exists){
-     await UsersList.doc(docId).update({
-        'ratingUsers': rating,
-        'progressgame' : progressgame,
-      });
-    }else{
-     await _firestore.collection('UsersList').doc(Username).collection(newStatus).doc(docuid).set({
-      "idGame" : updatelist.idGame,
-      "name" : updatelist.name,
-      "released": updatelist.Released,
-      "imageurl": updatelist.imageurl,
-      "ratingUsers" : rating,
-      "progressgame": progress,
-      "listplatform" : updatelist.listplatform.map((e) => e),
- });
- DocumentSnapshot checkupdate = await UsersList.doc(docuid).get();
- if(checkupdate.exists){
-    await removeList(Username, Status, docId!); 
-    }
-}
-  }catch(e){
-    print("Error : $e");
-  }
-}
-Future <void> removeList(String username, String status, String id) async{
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    final CollectionReference UsersList =_firestore.collection('UsersList').doc(username).collection(status);
-    await UsersList.doc(id).delete(); 
-  }
-Future<MyList?> Fecthdata(String username, String Status, String idx) async {
-    String? docId = await getDocIdList(username, Status, idx);
-    if (docId != null) {
-      MyList? myList = await getMyListByid(username, Status, docId);
-
-      return myList;
-    } else {
-      return null;
-    }
-  }
-
-Future <bool> checkStatus(String Username, String status,String idx) async {
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    final CollectionReference UsersList = _firestore.collection('UsersList').doc(Username).collection(status);
-    String? docId = await getDocIdList(Username, status, idx);
-    try{
-    DocumentSnapshot data = await UsersList.doc(docId).get();
-    if(data.exists){
-      return true;
-    }
-    }catch (e) {
-      print("Error : $e");
-    }
-    return false;
-  }
+  final CollectionReference UsersList = _firestore.collection('UsersDetail');
 
   
-
-  Future<MyList?> getMyListByid(String username, String status, String idx) async {
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    final CollectionReference UsersList =
-        _firestore.collection('UsersList').doc(username).collection(status);
-    try {
-      DocumentSnapshot data = await UsersList.doc(idx).get();
-      if (data.exists) {
-        Map<String, dynamic> datajson = data.data() as Map<String, dynamic>;
-        MyList myList = MyList.fromJson(datajson);
-        return myList;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      print("Error: $e");
-      return null;
+     QuerySnapshot querySnapshot = await UsersList
+      .doc(uid)
+      .collection("Listusers")
+      .where("idGame", isEqualTo: idgame)
+      .get();
+      if(querySnapshot.docs.isNotEmpty){
+        String docId =  querySnapshot.docs.first.id;
+        print(docId);
+        UsersList.doc(uid).collection("Listusers").doc(docId).update({
+      "ratingUsers" : rating,
+      "progressgame": progress,
+      "status": Status,
+        });
+    }else{
+      print("No document found");
     }
   }
 }

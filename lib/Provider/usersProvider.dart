@@ -16,13 +16,14 @@ class UsersProviders extends ChangeNotifier {
   String? _uid;
 
   UsersDetail? get users => _users;
-  String? get uid => _uid; // Fix the getter
+  String? get uid => _uid;
 
   Future<void> getUsers() async {
     _users = await Users().getID();
     _uid = _users?.Uid;
     notifyListeners();
   }
+  
   Future<String?> GetUsersId() async{
      User? user = FirebaseAuth.instance.currentUser;
    QuerySnapshot query = await _firebase.collection("UsersDetail").get();
@@ -32,14 +33,13 @@ class UsersProviders extends ChangeNotifier {
     }
    }
   }
+
   Future<void> updateusers(Uint8List imagedata) async{
     StoreUsersData? storedata;
     String? docId = await GetUsersId();
     String NewUrlImage = await storedata!.uploadProfileImage(uid!, imagedata);
-    // if(imagedata == null){
-    //   Query query = query
-    // } 
   }
+  
   Future<void>updateImage(Uint8List imagedata) async {
     await storage.refFromURL(users!.imageurl).delete().then((_) async {
     });

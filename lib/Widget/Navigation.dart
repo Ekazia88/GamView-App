@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamview/Models/UsersDetail.dart';
+import 'package:gamview/Provider/usersProvider.dart';
 import 'package:gamview/Screen/login_page.dart';
 import 'package:gamview/Screen/profile_page.dart';
 import 'package:gamview/Screen/settings_page.dart';
 import 'package:gamview/Service/DataControllerUsers.dart';
 import 'package:gamview/Service/auth_service.dart';
 import 'package:gamview/Widget/Homepage/IconProfile.dart';
+import 'package:provider/provider.dart';
 
 import '../Admin/Manajemen_News.dart';
 import '../Admin/input_LatestNews.dart';
@@ -17,6 +19,7 @@ class NavigationWid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UsersProviders users = context.read<UsersProviders>();
     final auth = FirebaseAuthService();
 
     return Drawer(
@@ -34,7 +37,6 @@ class NavigationWid extends StatelessWidget {
               return Text('Data not available');
             } else {
               UsersDetail userDetails = snapshot.data!;
-
               return ListView(
                 padding: EdgeInsets.zero,
                 children: [
@@ -98,6 +100,7 @@ class NavigationWid extends StatelessWidget {
                         ),
                       );
                     },
+      
                   ),
                   ListTile(
                     title: const Text(

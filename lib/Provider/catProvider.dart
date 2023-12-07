@@ -28,7 +28,6 @@ class CategoryProvider with ChangeNotifier{
       notifyListeners();
     } catch (error) {
       print("Error fetching category data: $error");
-      // Handle the error as needed
     }
   }
 Future<void> getGamesByCategory(String categoryId,String title) async {

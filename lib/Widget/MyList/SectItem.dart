@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gamview/Models/UsersList.dart';
 import 'package:gamview/Provider/usersProvider.dart';
-import 'package:gamview/Service/DataControllerUsers.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/DataReview.dart';
@@ -17,17 +16,26 @@ class SectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MyListProvider myListProvider = context.read<MyListProvider>();
-    UsersProviders user = Provider.of(context);
+    MyListProvider myListProvider = Provider.of(context);
+    UsersProviders user = context.read<UsersProviders>();
      user.getUsers();
-     
+
      UsersDetail? usersdetail = user.users;
      myListProvider.GetUsersList(usersdetail!.Uid, myListProvider.status);
-          return ListView.builder(
+     List <MyList> listx = myListProvider.Lists;
+     if(usersdetail == null){
+      return CircularProgressIndicator();
+     }else{
+          return listx.isEmpty ?
+          Center(
+            child: Text("Yah!! anda belum isi"),
+          ):
+          ListView.builder(
             shrinkWrap: true,
             itemCount: myListProvider.Lists.length,
             itemBuilder: (context, index) {
-              MyList list = myListProvider.Lists[index];
+              MyList list = listx[index];
+
                    return CardBoxList(
                       TahunRilis: list.Released,
                       id: list.idGame,
@@ -36,6 +44,7 @@ class SectItem extends StatelessWidget {
                       platform: list.listplatform.join(","),
                       Status: myListProvider.status,
                       uid: user.uid!,
+                      idx:index,
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) {
@@ -44,18 +53,19 @@ class SectItem extends StatelessWidget {
                         );
                       },
                       onPressed: () async{
-                        String? docid = await myListProvider.getDocIdList(usersdetail.username, myListProvider.status, list.idGame);
                         myListProvider.removeList(
-                          docid!,
                           usersdetail!.Uid,
-                          myListProvider.status,
+                          myListProvider.status,   
+                          list.idGame,
                         );
                       },
                       list: list,
                     );}
                     );
+
         }
       }
+}
 class CardBoxList extends StatelessWidget {
   const CardBoxList({
     Key? key,
@@ -67,6 +77,7 @@ class CardBoxList extends StatelessWidget {
     required this.TahunRilis,
     required this.onPressed, 
     required this.list, required this.uid, required this.Status,
+    required this.idx
 
   }) : super(key: key);
 
@@ -80,10 +91,10 @@ class CardBoxList extends StatelessWidget {
   final MyList list;
   final String uid;
   final String Status;
+  final int idx;
 
   @override
   Widget build(BuildContext context) {
-   
       return GestureDetector(
       onTap: onTap,
       child: Card(
@@ -135,14 +146,17 @@ class CardBoxList extends StatelessWidget {
                           iconSize: 30,
                           onPressed: (){
                                Navigator.of(context).push(
-    MaterialPageRoute(builder: (context) {
+  MaterialPageRoute(
+    builder: (context) {
       return EditListPage(
-        idx: list.idGame,
-        uid: uid,
-        status: Status,
-      );
-    }),
-  );
+          idx: list.idGame,
+          uid: uid,
+          status: Status,
+          list : list,
+        );
+    },
+  ),
+);
                           },
                         ),
                         IconButton(

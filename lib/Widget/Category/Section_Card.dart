@@ -7,18 +7,21 @@ import 'package:gamview/Models/UsersList.dart';
 import 'package:gamview/Provider/MyListProvider.dart';
 import 'package:gamview/Provider/gameProvider.dart';
 import 'package:gamview/Provider/usersProvider.dart';
+import 'package:gamview/Screen/EditListPage.dart';
+import 'package:gamview/Service/DataControllerUsers.dart';
 import 'package:gamview/Widget/Card.dart';
 import 'package:provider/provider.dart';
 
 class SectionCategoryCard extends StatelessWidget {
   const SectionCategoryCard({Key? key});
+  
+  get myListProvider => null;
 
   @override
   Widget build(BuildContext context) {
-    GameProvider gameProvider = Provider.of(context);
-    MyListProvider myListProvider = Provider.of(context);
-    UsersProviders user = Provider.of(context);
-    user.getUsers();
+    GameProvider gameProvider = context.watch<GameProvider>();
+    MyListProvider myListProvider = context.read<MyListProvider>();
+    UsersProviders user = context.read<UsersProviders>();
     UsersDetail? usersDetail = user.users;
     String catId = gameProvider.catId;
     gameProvider.showGameByCat(catId);
@@ -72,19 +75,41 @@ class SectionCategoryCard extends StatelessWidget {
                       itemBuilder: (context, index) {
                        GameModel gamedata = gameProvider.gamelist[index];
                        List<CatModel> genre = gamedata.listcat;
+                        bool isAllowedToAdd = myListProvider.checkuser(usersDetail!.Uid, myListProvider.status, gamedata.idGame) == true;
                         return GridTile(
-                          child: CardContainer(
+                          child: 
+                          CardContainer(
                             Genre: genre.isNotEmpty ?
                             genre.map((cat) => cat.name).join(',')
                             :'no genre',
                             Title: '${gamedata.name}',
-                            ImagePath: "assets/Images/Howard_legacy_news.jpg",
+                            ImagePath: gamedata.image,
+                            icon: isAllowedToAdd ? Icons.add : Icons.check_box_sharp,
                             onTap: () {
                             },
-                            onPressed: () => {
-                              myListProvider.addList(usersDetail!.username, "Onprogress", gamedata)
-                            },
-                          ),
+                            onPressed: isAllowedToAdd ?
+                            ()async{
+
+                              MyList? myList =  await myListProvider.getMyListById(gamedata.idGame, usersDetail.Uid);
+                               Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return EditListPage(
+                                        idx: gamedata.idGame,
+                                        uid: usersDetail.Uid,
+                                        status: myListProvider.status, list: myList,
+
+                                      );
+                                  }
+                                   
+                                )
+                                
+                              );    
+                            }
+                            :() => {
+                              myListProvider.addList(usersDetail!.Uid, "Onprogress", gamedata)
+                            }                
+                          )
                         );
 
                       },
@@ -99,4 +124,5 @@ class SectionCategoryCard extends StatelessWidget {
       ],
     );
   }
+  
 }

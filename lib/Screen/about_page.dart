@@ -30,17 +30,16 @@ class AboutPage extends StatelessWidget {
                   children: [
                   AvatarCircle(),
                   SizedBox(height: 20,),
-                  
                   Text(
-                    "Abdullah Mustaqim",
+                    "GamView",
                     style: Theme.of(context).textTheme.bodyLarge!,
                     ),
                     Text(
-                    "2109106134",
+                    "Game Review Application",
                     style: Theme.of(context).textTheme.bodyLarge!
                     ),
                     Text(
-                    "Informatika C'21",
+                    "Kelompok 4",
                     style: Theme.of(context).textTheme.bodyLarge!,
                     ),
                 ])
@@ -64,8 +63,7 @@ class AvatarCircle extends StatelessWidget {
       height: 200,
       child: CircleAvatar(
         backgroundColor : Colors.amber,
-        // backgroundImage: AssetImage('./assets/logo.png'),
-
+        backgroundImage: AssetImage('./'),
       ),
     );
   }

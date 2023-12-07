@@ -1,5 +1,7 @@
 import 'package:gamview/Models/Platform.dart';
 
+
+
 class MyList {
   String idGame;
   String name;
@@ -36,7 +38,7 @@ class MyList {
       imageurl: json['imageurl'] ?? '',
       ratingUsers: json['ratingUsers'] ?? 0,
       ProgressGame: json['progressgame'] ?? 0,
-      Status: json['Status'] ?? '',
+      Status: json['status'] ?? '',
       listplatform: platList,
     );
   }

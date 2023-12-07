@@ -35,8 +35,8 @@ class GameProvider extends ChangeNotifier {
       platformModel(name: 'Xbox', image: 'https://firebasestorage.googleapis.com/v0/b/gamview-a3859.appspot.com/o/platform%2Fxbox.png?alt=media&token=98439b06-3f77-4d54-bc3e-26080507dad5', Idplat: 'plat03'),
     ],
   );
-  Future<void> storedata(GameModel Model)async {
-    Map<String, dynamic> gameMap = Model.toJson();
+  Future<void> storedata()async {
+    Map<String, dynamic> gameMap = game.toJson();
     await _firestore.collection('Games').doc().set(gameMap);
   } 
   Future<void> showGameByCat(String catId) async {

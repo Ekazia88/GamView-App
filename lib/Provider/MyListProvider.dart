@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -11,92 +13,148 @@ class MyListProvider extends ChangeNotifier{
   String get status => _status;
   String id = "";
   List <MyList> Lists = [];
+  
+  String? get idx => idx;
   void setStatus(String status){
     _status=status;
     notifyListeners();
   }
  Future<void> GetUsersList(String uid, String status) async {
   List<MyList> newLists = [];
-  CollectionReference UserList = _firestore.collection('UsersList');
+  CollectionReference UserList = _firestore.collection('UsersDetail');
+
   try {
-    QuerySnapshot querySnapshot = await UserList.doc(uid).collection(status).get();
+    QuerySnapshot querySnapshot = await UserList.doc(uid).collection("Listusers").where(
+      "status", isEqualTo: status).get();
 
     // Loop through the documents in the snapshot
     for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
-      // Check if the document exists
-      if (documentSnapshot.exists) {
-        // Extract the data as a Map<String, dynamic>
-        Map<String, dynamic>? userData = documentSnapshot.data() as Map<String, dynamic>?;
-        dynamic listPlatformData = userData!['listplatform'];
+  // Extract the data as a Map<String, dynamic>
+  Map<String, dynamic>? userData = documentSnapshot.data() as Map<String, dynamic>?;
+
+  if (userData != null) {
+    dynamic listPlatformData = userData['listplatform'];
     List<String> listsData = List<String>.from(listPlatformData);
-    // Create a new MyList object using the listsData
+    
     MyList lists = MyList.fromJson({
       'idGame': userData['idGame'],
       'name': userData['name'],
       'released': userData['released'],
       'imageurl': userData['imageurl'],
-      'Progressgame' : 0,
-      'ratingUsers' : 0,
+      'Progressgame': 0,
+      'ratingUsers': 0,
       'listplatform': listsData,
     });
-    // Add the MyList object to the newLists
+    print(lists);
     newLists.add(lists);
-    }
-     print(newLists);
-    }
+  }
+}
   } catch (e) {
     // Handle any errors that might occur during the process
     print("Error retrieving user's list: $e");
   }
-  // Assign the new list to the Lists variable
   Lists = newLists;
-  // Notify listeners about the change
+
   notifyListeners();
 }
 
 
   Future <void> addList(String uid,String status,GameModel gameModel) async{
-  final CollectionReference UsersList = _firestore.collection('UsersList');
-  try{
- UsersList.doc(uid).update({
-  status : FieldValue.arrayUnion([{
+  final CollectionReference UsersList = _firestore.collection('UsersDetail');
+
+ UsersList.doc(uid).collection("Listusers").doc().set({
   "idGame" : gameModel.idGame,
   "name" : gameModel.name,
   "released": gameModel.Released,
   "imageurl": gameModel.image,
   "ratingUsers" : 0,
   "Progressgame":0,
-  'Status' : status,
+  "status":status,
   "listplatform" : gameModel.listplat.map((e) => e.name),
-  }
-  ])
  });
-  }catch(e){
-    print(e);
+}
+
+  Future<void> removeList(String uid, String status, String id) async {
+  final CollectionReference UsersList = _firestore.collection('UsersDetail');
+
+  try {
+    QuerySnapshot querySnapshot = await UsersList.doc(uid).collection("Listusers").where("idGame", isEqualTo: id).get();
+
+    for (QueryDocumentSnapshot queryDocumentSnapshot in querySnapshot.docs) {
+      String idx = queryDocumentSnapshot.id;
+      print(idx);
+      await UsersList.doc(uid).collection("Listusers").doc(idx).delete();
+    }
+  } catch (e) {
+    print("Error: $e");
   }
-  }
-  Future <void> removeList(String uid, String status, String id) async{
-    final CollectionReference UsersList =_firestore.collection('UsersList').doc(uid).collection(status);
-    await UsersList.doc(id).delete(); 
-  }
-  
-  MyList? getMyListByid(String docId,String uid,String status){
-    final CollectionReference UsersList = _firestore.collection('UsersList').doc(uid).collection(status);
-    try{
-    DocumentSnapshot data = UsersList.doc(docId).get() as DocumentSnapshot<Object?>;
-  
-    if(data.exists){
-      Map<String, dynamic> datajson =data.data() as Map<String,dynamic>;
-      MyList myList = MyList.fromJson(datajson);
+}
+
+
+  Future<MyList?> getMyListById(String idgame, String uid) async {
+  final CollectionReference usersList = _firestore.collection('UsersDetail').doc(uid).collection('Listusers');
+
+  try {
+    QuerySnapshot querySnapshot = await usersList.where('idGame', isEqualTo: idgame).get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      QueryDocumentSnapshot docSnapshot = querySnapshot.docs.first;
+      Map<String, dynamic>? data = docSnapshot.data() as Map<String, dynamic>?;
+       dynamic listPlatformData = data!['listplatform'];
+    List<String> listsData = List<String>.from(listPlatformData);
+      MyList myList = MyList.fromJson({
+        'idGame': data!['idGame'],
+      'name': data['name'],
+      'released': data['released'],
+      'imageurl': data['imageurl'],
+      'Progressgame': data['progressgame'],
+      'ratingUsers': data['ratingUsers'],
+      'listplatform': listsData,
+    });
+
+      // Return the MyList object
+
       return myList;
-    }else{
+
+    } else {
+
       return null;
     }
-    }catch (e){
-      print("Error : $e");
-      return null;
-    }
+  } catch (e) {
+    print("Error: $e");
+    return null;
   }
+}
+
+ 
+
+Future<bool?> checkuser(String uid, String status, String gameId) async {
+  CollectionReference UserList = _firestore.collection('UsersList');
+
+  try {
+    QuerySnapshot querySnapshot = await UserList.doc(uid).collection("Listusers").where(
+      "status", isEqualTo: status,
+    ).get();
+
+    bool isGameInList = querySnapshot.docs.any((doc) {
+      Map<String, dynamic> userData = doc.data() as Map<String, dynamic>;
+      return userData['idGame'] == gameId;
+    });
+
+    if (isGameInList) {
+      print('Game with id $gameId is in the user\'s list for status $status.');
+    } else {
+      print('Game with id $gameId is not in the user\'s list for status $status.');
+    }
+
+    return isGameInList; 
+
+  } catch (e) {
+    print("Error checking user's list: $e");
+    return false; 
+  }
+}
+
   Future<String?> getDocIdList(String uid, String status, String idx) async {
     final CollectionReference UsersList =
         _firestore.collection('UsersList').doc(uid).collection(status);

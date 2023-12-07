@@ -76,10 +76,10 @@ class _pagesControllerState extends State<pagesController> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => CategoryProvider()),
-      ChangeNotifierProvider(create: (context) => GameProvider()),
-      ChangeNotifierProvider(create: (context) => UsersProviders()),
-      ChangeNotifierProvider(create: (context) => MyListProvider())
+      ChangeNotifierProvider(create: (context) => CategoryProvider(),lazy: true,),
+      ChangeNotifierProvider(create: (context) => GameProvider(),lazy :true),
+      ChangeNotifierProvider(create: (context) => UsersProviders(),lazy :true),
+      ChangeNotifierProvider(create: (context) => MyListProvider(),lazy :true)
     ],child: 
     Scaffold(
       drawer: NavigationWid(),
@@ -103,7 +103,6 @@ class _pagesControllerState extends State<pagesController> {
         ),
       );
     } else if (!snapshot.hasData) {
-      // Handle the case where data is not available
       return Text('Data not available');
     } else {
       try {
@@ -131,7 +130,8 @@ class _pagesControllerState extends State<pagesController> {
         onPageChanged: onPageChanged,
         currentIndex: _currentIndex,
       ),
-      body: PageView(
+      body:
+      PageView(
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: const [

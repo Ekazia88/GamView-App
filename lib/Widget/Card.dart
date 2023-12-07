@@ -6,16 +6,15 @@ class CardContainer extends StatelessWidget {
   final String ImagePath;
   final void Function()? onTap;
   final void Function ()? onPressed;
-  const CardContainer({super.key, required this.Title, required this.Genre, required this.ImagePath, this.onTap, this.onPressed});
+  final IconData? icon;
+  const CardContainer({super.key, required this.Title, required this.Genre, required this.ImagePath, this.onTap, this.onPressed, this.icon,});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-
         child: Padding(padding: EdgeInsets.only(left: 10,right: 12,top: 24),
         child: 
         Container(
-          
         decoration: BoxDecoration(
             color: Colors.blueAccent,
             borderRadius: BorderRadius.only(
@@ -33,7 +32,7 @@ class CardContainer extends StatelessWidget {
                     height:220,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(ImagePath),
+                        image: NetworkImage(ImagePath),
                         fit: BoxFit.fitHeight,
                       ),
                     ),
@@ -47,16 +46,18 @@ class CardContainer extends StatelessWidget {
                         width: 100,
                         height: 50,
                       ),
-                      SizedBox(width: 55,),
+                      SizedBox(width: 45,),
                       Container(
                         width: 35,
                         height: 35,
                         child: Center(
-                          child: IconButton(
+                          child: 
+                          IconButton(
                             onPressed: onPressed,
                             icon:Icon(
-                            Icons.add_box,
+                            icon,
                             color: Colors.white,
+                            size: 30,
                             ),
                           ),
                         ),

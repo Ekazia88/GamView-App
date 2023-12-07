@@ -2,10 +2,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:gamview/Models/UsersDetail.dart';
+import 'package:gamview/Provider/usersProvider.dart';
 import 'package:gamview/Service/DataControllerUsers.dart';
 import 'package:gamview/Widget/ImagePicker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
+import '../Service/StorageData.dart';
 import '../Service/auth_service.dart';
 import 'login_page.dart';
 
@@ -21,7 +24,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool _darkModeEnabled = false;
   Uint8List? _image;
-  
+
   void SelectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
     setState(() {
@@ -31,8 +34,13 @@ class _SettingsPageState extends State<SettingsPage> {
   
   @override
 Widget build(BuildContext context) {
+  UsersProviders usersProviders = context.watch<UsersProviders>();
   final auth = FirebaseAuthService();
-  return Scaffold(
+  return Provider<UsersProviders>(
+    create: (_) => UsersProviders(),
+    builder: (context,child){
+      return
+  Scaffold(
     appBar: AppBar(
       title: Center(
         child: Text('Settings'),
@@ -108,7 +116,8 @@ Widget build(BuildContext context) {
           SizedBox(height: 16.0),
           ElevatedButton(
             onPressed: () {
-              _showEditProfileDialog(context);
+              usersProviders.GetUsersId();
+              usersProviders.updateImage(_image!);
             },
             child: Text('Edit Profile'),
             style: ElevatedButton.styleFrom(
@@ -134,6 +143,9 @@ Widget build(BuildContext context) {
     ),
   );
 }
+  );
+}
+
 
   void _showEditProfileDialog(BuildContext context) {
     showDialog(

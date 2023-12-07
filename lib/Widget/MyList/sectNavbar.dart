@@ -9,8 +9,8 @@ class SectMylist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GameProvider gameProvider = Provider.of(context);
-    MyListProvider myListProvider = Provider.of(context);
+    GameProvider gameProvider = context.watch<GameProvider>();
+    MyListProvider myListProvider = context.watch<MyListProvider>();
     return Container(
       height: 60,
       color: Colors.blue,
@@ -41,7 +41,7 @@ class SectMylist extends StatelessWidget {
           ),
           TextButton(
           onPressed: () {
-            myListProvider.setStatus("wishlist");
+            myListProvider.setStatus("WishList");
           }, child: Text(
             "WishList",style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontSize: 22
@@ -50,7 +50,7 @@ class SectMylist extends StatelessWidget {
           ),
           TextButton(
           onPressed: () {
-            myListProvider.setStatus("favorited");
+            myListProvider.setStatus("Favorited");
           }, child: Text(
             "Favorited",style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontSize: 21

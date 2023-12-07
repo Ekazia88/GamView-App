@@ -23,7 +23,7 @@ class SectItem extends StatelessWidget {
      UsersDetail? usersdetail = user.users;
      myListProvider.GetUsersList(usersdetail!.Uid, myListProvider.status);
      List <MyList> listx = myListProvider.Lists;
-     if(usersdetail == null){
+     if(listx == null){
       return CircularProgressIndicator();
      }else{
           return listx.isEmpty ?
@@ -35,7 +35,6 @@ class SectItem extends StatelessWidget {
             itemCount: myListProvider.Lists.length,
             itemBuilder: (context, index) {
               MyList list = listx[index];
-
                    return CardBoxList(
                       TahunRilis: list.Released,
                       id: list.idGame,

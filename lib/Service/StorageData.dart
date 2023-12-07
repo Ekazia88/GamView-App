@@ -19,7 +19,6 @@ class StoreUsersData{
   }
 
 Future<void> RegisterUsersDetail(String DateCreated, String Email, String imageurl,String username,String uuid) async{
-  print("test");
   await _firestore.collection('UsersDetail').doc(uuid).set({
     'Uid' : uuid,
     'username' : username,

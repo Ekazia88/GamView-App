@@ -41,15 +41,14 @@ class GameProvider extends ChangeNotifier {
   } 
   Future<void> showGameByCat(String catId) async {
     List<GameModel> newGameList = [];
-
     try {
       QuerySnapshot data = await _firestore.collection('Games').get();
       for (QueryDocumentSnapshot element in data.docs) {
         if (element.exists) {
           Map<String, dynamic>? gameData =
               element.data() as Map<String, dynamic>?;
-
           if (gameData != null) {
+
             GameModel gameModel = GameModel.fromJson(gameData);
             bool catIdIsSpecified = gameModel.listcat.any(
               (cat) =>
@@ -66,11 +65,9 @@ class GameProvider extends ChangeNotifier {
           }
         }
       }
-
       gamelist = newGameList;
-      notifyListeners();
     } catch (error) {
-      print("Error fetching games: $error");
+      print("Error fetching gamesx: $error");
       // Handle error as needed
     }
   }

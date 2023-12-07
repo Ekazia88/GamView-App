@@ -212,46 +212,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       _image = img;
     });
   }
-
-  void Submit() async {
-    String username = usernameController.text;
-    String email = emailController.text;
-    String password = passwordController.text;
-    String Date = DateTime.now().toString();
-    StoreUsersData savedata = StoreUsersData();
-    if(username.isEmpty || password.isEmpty || email.isEmpty){
-      popup("Warning", "data harus diisi");
-    }else{
-    try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('UsersDetail')
-          .where('username', isEqualTo: username)
-          .get();
-      if (querySnapshot.docs.isNotEmpty) {
-          popup("error", "image harus diisi");
-      }
-      else if(_image == null){
-        popup("Error", "  Gamabr harus diisi");
-      } else {
-        var uuid = Uuid();
-        String id = uuid.v4();
-        await _auth.SignUp(email, password);
-        String image = await savedata.uploadProfileImage(username, _image!);
-        savedata.RegisterUsersDetail(Date, email, image, username, id);
-      
-      }
-        Navigator.push(
-                    context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-      );
-
-
-    } catch (e) {
-      print(e);
-    }
-    }
-  }
-  void popup(String title, String content) {
+void popup(String title, String content) {
     showDialog(
       context: context,
       builder: ((context) {
@@ -276,7 +237,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
       }),
     );
   }
+  void Submit() async {
+    String username = usernameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    String Date = DateTime.now().toString();
+    StoreUsersData savedata = StoreUsersData();
 
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('UsersDetail')
+          .where('username', isEqualTo: username)
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        popup("error", "username ada");
+      } else {
+        var uuid = Uuid();
+        String id = uuid.v4();
+        await _auth.SignUp(email, password);
+        String image = await savedata.uploadProfileImage(username, _image!);
+        savedata.RegisterUsersDetail(Date, email, image, username, id);
+        setState(() => islogin = true);
+
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -417,9 +404,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                   child: InkWell(
                     onTap: () async {
-                      
-                        Submit();
+                       Submit();
+                      if (islogin) {
                        
+                        Navigator.pushReplacement(
+                            context, MaterialPageRoute(builder: (context) => LoginPage()));
+                      } else {
+                        print(islogin);
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),

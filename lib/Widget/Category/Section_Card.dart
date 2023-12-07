@@ -14,8 +14,6 @@ import 'package:provider/provider.dart';
 
 class SectionCategoryCard extends StatelessWidget {
   const SectionCategoryCard({Key? key});
-  
-  get myListProvider => null;
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +60,11 @@ class SectionCategoryCard extends StatelessWidget {
                     height: totalHeight,
                     width: lebar,
                     child: gameProvider.gamelist.isEmpty ?
+                    Center( child: 
                     Text("Kosong",style: TextStyle(
                       color: Colors.black
                     ),) 
+                    )
                     :GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
